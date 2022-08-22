@@ -1,0 +1,191 @@
+<mat-stepper linear #stepper class="container">
+  <mat-step [stepControl]="secondFormGroup" [editable]="true">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title
+          ><ng-template matStepLabel>Set Rooms</ng-template>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>Add rooms</ng-template>
+          <mat-form-field>
+            <mat-label>Room Name</mat-label>
+            <input
+              matInput
+              formControlName="secondCtrl"
+              placeholder="Room"
+              [(ngModel)]="roomName"
+            /> </mat-form-field
+          ><button
+            mat-stroked-button
+            style="border-color: chartreuse; margin-left: 25px"
+            (click)="addRoom(roomName)"
+          >
+            Add
+          </button>
+          <div *ngIf="this.roomsArray.Rooms.length !== 0">
+            <div
+              cdkDropList
+              class="example-list"
+              (cdkDropListDropped)="dropRooms($event)"
+            >
+              <div
+                class="example-box"
+                *ngFor="let room of this.roomsArray.Rooms"
+                cdkDrag
+                [cdkDragDisabled]="true"
+              >
+                {{ room.name
+                }}<button
+                  mat-stroked-button
+                  style="border-color: #fa3535"
+                  (click)="deleteRoom(room.id)"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions> </mat-card-actions>
+    </mat-card>
+    <button mat-stroked-button class="buttonSpace" matStepperNext>Next</button>
+  </mat-step>
+
+  <mat-step [stepControl]="thirdFormGroup" [editable]="true">
+    <mat-card class="mat-elevation-z4">
+      <mat-card-header style="text-align: center">
+        <mat-card-title
+          ><ng-template matStepLabel>Assign adapter</ng-template>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="thirdFormGroup">
+          <div *ngIf="!hideSpinner && scan">
+            <mat-spinner></mat-spinner>
+          </div>
+          <div *ngIf="hideSpinner">
+            <div
+              cdkDropList
+              class="example-list"
+              (cdkDropListDropped)="dropDevices($event)"
+            >
+              <div
+                class="example-box"
+                *ngFor="let device of this.deviceStorage.Devices; let i = index"
+                cdkDrag
+                [cdkDragDisabled]="false"
+              >
+                {{ device.FriendlyName }}
+                <mat-form-field>
+                  <mat-label>Select room</mat-label>
+                  <mat-select [(value)]="this.deviceStorage.Devices[i].Room">
+                    <mat-option>None</mat-option>
+                    <mat-option
+                      *ngFor="let room of this.roomsArray.Rooms"
+                      [value]="room.id"
+                    >
+                      {{ room.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions> </mat-card-actions>
+    </mat-card>
+    <button mat-stroked-button class="buttonSpace" (click)="getAllTsAdapter()">
+      Scan
+    </button>
+    <button mat-stroked-button class="buttonSpace" matStepperPrevious>
+      Back
+    </button>
+    <button mat-stroked-button class="buttonSpace" matStepperNext>Next</button>
+  </mat-step>
+
+  <mat-step>
+    <mat-card class="mat-elevation-z4">
+      <mat-card-header style="text-align: center">
+        <mat-card-title
+          ><ng-template matStepLabel>Set Web Admin credentials</ng-template>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="this.deviceStorage.Devices.length !== 0">
+          <div *ngFor="let device of this.deviceStorage.Devices; let i = index">
+            <mat-accordion>
+              <mat-expansion-panel
+                hideToggle
+                [disabled]="true"
+                [expanded]="this.deviceStorage.Devices[i].setCredentials"
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ device.FriendlyName }}
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    <mat-checkbox
+                      class="example-margin"
+                      [(ngModel)]="this.deviceStorage.Devices[i].setCredentials"
+                      >Set credentials</mat-checkbox
+                    >
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-form-field class="example-full-width">
+                  <mat-label>Username</mat-label>
+                  <input
+                    matInput
+                    placeholder=""
+                    [(ngModel)]="this.deviceStorage.Devices[i].userName"
+                  />
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                  <mat-label>Password</mat-label>
+                  <input
+                    matInput
+                    type="password"
+                    placeholder=""
+                    [type]="hide ? 'password' : 'text'"
+                    [(ngModel)]="this.deviceStorage.Devices[i].password"
+                  />
+                  <!-- <button type="submit">save</button> -->
+                </mat-form-field>
+              </mat-expansion-panel>
+            </mat-accordion>
+            <br />
+          </div>
+        </div>
+        <div></div>
+      </mat-card-content>
+      <mat-card-actions></mat-card-actions>
+    </mat-card>
+
+    <div>
+      <button mat-stroked-button class="buttonSpace" matStepperPrevious>
+        Back
+      </button>
+      <button mat-stroked-button class="buttonSpace" matStepperNext>
+        Next
+      </button>
+    </div>
+    <!--     </div> -->
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p class="textColor">You are now done.</p>
+    <div>
+      <button mat-stroked-button class="buttonSpace" matStepperPrevious>
+        Back
+      </button>
+      <button mat-stroked-button class="buttonSpace" (click)="saveAdapter()">
+        Finish Setup
+      </button>
+    </div>
+  </mat-step>
+</mat-stepper>

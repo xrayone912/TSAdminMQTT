@@ -1,0 +1,134 @@
+<!--<button (click)="retrieveDevices()">Get Devices</button>-->
+<mat-tab-group
+  [selectedIndex]="1"
+  mat-stretch-tabs
+  class="example-stretched-tabs mat-elevation-z4 || container"
+>
+  <div *ngFor="let item of this.roomsArray.Rooms">
+    <mat-tab label="{{ item.name }}">
+      <!--<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+          <div class="example-box" *ngFor="let device of this.deviceStorage.Devices" cdkDrag>
+            <table *ngIf="device.Room === item.id">
+            <tr>
+              <th>Adapter</th>
+              <th>Power</th>
+              <th>IP</th>
+            </tr>
+            <tr>
+              <td>{{device.FriendlyName}}</td>
+              <td>{{device.Power}}</td>
+              <td>{{device.ip}}</td>
+              <td>{{device.Topic}}</td>
+              
+              <button *ngIf="device.Power === 1" (click)="DevicePowerOn(device.ip, device.Power)">On</button>
+              <button *ngIf="device.Power === 0" (click)="DevicePowerOn(device.ip, device.Power)">Off</button>
+             </tr>
+          </table></div>
+        </div>-->
+
+      <div class="content">
+        <div
+          fxLayout="row wrap"
+          fxLayoutGap="16px grid"
+          fxLayoutAlign="center center"
+        >
+          <mat-grid-list
+            *ngFor="let device of this.deviceStorage.Devices"
+            cols="2"
+            rowHeight="2:1"
+          >
+            <mat-card
+              *ngIf="device.Room === item.id"
+              class="mat-elevation-z4 || mat-card"
+            >
+              <mat-card-header style="text-align: center">
+                <mat-card-title>{{ device.FriendlyName }}</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <table *ngIf="device.Room === item.id">
+                  <tr>
+                    <th>PowerState</th>
+                    <th>Adapter IP</th>
+                  </tr>
+                  <tr>
+                    <mat-icon
+                      [ngClass]="{
+                        true: device.Power === 1,
+                        false: device.Power === 0
+                      }"
+                      >grain</mat-icon
+                    >
+                    <!--<td>{{device.Power}}</td>-->
+                    <td style="margin-left: 100px">{{ device.ip }}</td>
+                    <!--<td>{{device.Topic}}</td>-->
+                  </tr>
+                </table>
+              </mat-card-content>
+              <mat-card-actions>
+                <button
+                  mat-stroked-button
+                  style="border-color: #fa3535"
+                  *ngIf="device.Power === 0"
+                  (click)="
+                    DevicePowerOn(
+                      device.ip,
+                      device.Power,
+                      device.userName,
+                      device.password
+                    )
+                  "
+                >
+                  Off
+                </button>
+                <button
+                  mat-stroked-button
+                  style="border-color: chartreuse"
+                  *ngIf="device.Power === 1"
+                  (click)="
+                    DevicePowerOn(
+                      device.ip,
+                      device.Power,
+                      device.userName,
+                      device.password
+                    )
+                  "
+                >
+                  On
+                </button>
+                <button
+                  mat-stroked-button
+                  style="border-color: rgb(117, 117, 117)"
+                  (click)="
+                    openBottomSheet(device.ip, device.userName, device.password)
+                  "
+                >
+                  Settings
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </mat-grid-list>
+        </div>
+      </div>
+    </mat-tab>
+  </div>
+  <mat-tab label="TSAdminMQTT Settings">
+    <mat-card class="mat-elevation-z4">
+      <mat-card-header style="text-align: center">
+        <mat-card-title
+          >SHAdmin Settings
+          <mat-slide-toggle
+            [(ngModel)]="this.global.darkMode"
+            (click)="this.saveGlobal()"
+            [formControl]="darkTheme"
+            >DarkMode</mat-slide-toggle
+          ></mat-card-title
+        >
+      </mat-card-header>
+      <mat-card-content>
+        <!-- <button mat-stroked-button style="border-color: rgb(117, 117, 117); margin-left: 15px;" routerLink="/setup">Setup</button> -->
+      </mat-card-content>
+      <mat-card-actions> </mat-card-actions>
+    </mat-card>
+    <app-setup></app-setup>
+  </mat-tab>
+</mat-tab-group>
