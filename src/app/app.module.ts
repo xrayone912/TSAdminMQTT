@@ -39,6 +39,7 @@ import { IMqttServiceOptions, MqttModule } from 'ngx-mqtt';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ToastrModule } from 'ngx-toastr';
 import { TutorialComponent } from './components/dialog/tutorial/tutorial.component';
+import { ResetSettingsComponent } from './components/dialog/resetSettings/resetSettings.component';
 
 const dbConfig: DBConfig = {
   name: 'SHAdmin.DB',
@@ -143,6 +144,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     SetupComponent,
     SettingsComponent,
     TutorialComponent,
+    ResetSettingsComponent
   ],
   imports: [
     FlexLayoutModule,

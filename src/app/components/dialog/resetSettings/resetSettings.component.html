@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Reset TSAdminMQTT</h2>
+<mat-dialog-content class="mat-typography">
+  <h3 style="color: rgb(255, 0, 0)">Be careful !</h3>
+  <p>Are you sure you want to reset TSAdminMQTT to default settings ?
+    All your settings will be lost.</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button
+    mat-stroked-button
+    class="matStrokedButton-red"
+    mat-dialog-close
+    (click)="deleteIndexedDB();"
+  >
+    OK
+  </button>
+  <button
+  mat-stroked-button
+  class="matStrokedButton"
+  mat-dialog-close
+>
+  Cancel
+</button>
+</mat-dialog-actions>

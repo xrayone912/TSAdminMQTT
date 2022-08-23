@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TutorialComponent } from '../dialog/tutorial/tutorial.component';
 import { ToastrService } from 'ngx-toastr';
 import {environment} from '../../../environments/environment';
+import { ResetSettingsComponent } from '../dialog/resetSettings/resetSettings.component';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -182,8 +183,13 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  openDialog() {
+  openTutorialDialog() {
     const dialogRef = this.dialog.open(TutorialComponent);
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  openResetDialog() {
+    const dialogRef = this.dialog.open(ResetSettingsComponent);
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
