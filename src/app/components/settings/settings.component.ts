@@ -1,6 +1,5 @@
-import { Component, ErrorHandler, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
-  MatBottomSheet,
   MatBottomSheetRef
 } from '@angular/material/bottom-sheet';
 import { HttpService } from '../../services/http.service';
@@ -18,6 +17,9 @@ export class SettingsComponent implements OnInit {
   urlConfig: any;
   needCredentials!: boolean;
 
+  @Input()
+  error!: boolean;
+
   constructor(
     private _bottomSheetRef: MatBottomSheetRef<SettingsComponent>,
     public httpService: HttpService,
@@ -26,6 +28,8 @@ export class SettingsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.error);
+    
     this.urlConfig = 'http://' + this.global.ip + '/?';
 
     this.trustedUrlConfig = this.sanitizer.bypassSecurityTrustResourceUrl(

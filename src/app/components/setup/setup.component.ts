@@ -30,7 +30,7 @@ export class SetupComponent implements OnInit {
     private dbService: NgxIndexedDBService,
     private _formBuilder: FormBuilder,
     public roomsArray: Room_Array,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {
     if ((<any>window).require) {
       try {
@@ -79,10 +79,8 @@ export class SetupComponent implements OnInit {
     }, 15000);
   }
 
-  saveAdapter() {
-    this.dbService.clear('adpater').subscribe((successDeleted) => {
-      //console.log('success? ', successDeleted);
-    });
+  saveAdapter(drop: boolean) {
+    this.dbService.clear('adpater').subscribe((successDeleted) => {});
     this.deviceStorage.Devices.forEach((element) => {
       this.dbService
         .add('adpater', {
@@ -111,9 +109,13 @@ export class SetupComponent implements OnInit {
           this.returnMsg = 'Data added successfully';
         });
     });
-    this.showSuccess();
-    this.showRestart();
-    this.restartApp();
+    if (drop) {
+      this.showSuccess();
+    } else {
+      this.showSuccess();
+      this.showRestart();
+      this.restartApp();
+    }
   }
 
   restartApp() {
@@ -131,7 +133,6 @@ export class SetupComponent implements OnInit {
       })
       .subscribe((key) => {
         this.returnMsg = 'Data added successfully';
-        //console.log('key: ', key);
         var room = {
           id: key.id,
           name: key.name,
@@ -141,13 +142,13 @@ export class SetupComponent implements OnInit {
       });
   }
 
-  dropDevices(event: CdkDragDrop<string[]>) {
+  dropDevices(event: CdkDragDrop<string[]>, drop: boolean) {
     moveItemInArray(
       this.deviceStorage.Devices,
       event.previousIndex,
       event.currentIndex
     );
-    this.saveAdapter();
+    this.saveAdapter(drop);
   }
 
   dropRooms(event: CdkDragDrop<string[]>) {
@@ -182,15 +183,13 @@ export class SetupComponent implements OnInit {
     this.roomsArray.Rooms = this.roomsArray.Rooms.filter(
       (item) => item.id !== id
     );
-    this.dbService.bulkDelete('rooms', [id]).subscribe((result) => {
-      //console.log('result: ', result);
-    });
+    this.dbService.bulkDelete('rooms', [id]).subscribe((result) => {});
   }
 
   showSuccess() {
-    this.toastr.success('Successfully saved');
+    this.toastr.success('Successfully saved', '', {closeButton: true, timeOut: 4000, progressBar: true});
   }
   showRestart() {
-    this.toastr.warning('Application restarts');
+    this.toastr.warning('Application restarts','', {closeButton: true, timeOut: 4000, progressBar: true});
   }
 }

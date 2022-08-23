@@ -1,4 +1,4 @@
-.example-list {
+.drop-list {
   width: 500px;
   max-width: 100%;
   border: solid 1px #ccc;
@@ -9,7 +9,7 @@
   overflow: hidden;
 }
 
-.example-box {
+.drop-box {
   padding: 20px 10px;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
@@ -38,11 +38,11 @@
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.example-box:last-child {
+.drop-box:last-child {
   border: none;
 }
 
-.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+.drop-list.cdk-drop-list-dragging .drop-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 .mat-tab-group {
@@ -69,10 +69,29 @@
   min-width: 250px !important;
 }
 
+.buttonSpace {
+  margin-top: 40px;
+  margin-left: 15px;
+  border-color: var(--text-color) !important;
+  color: var(--text-color) !important;
+}
+
 ::ng-deep .mat-tab-group[mat-stretch-tabs] > .mat-tab-header .mat-tab-label {
   flex-basis: 0 !important;
   flex-grow: 1 !important;
   color: var(--text-color) !important;
+}
+
+.stroked-button-red{
+  border-color: #fa3535;
+}
+
+.stroked-button-green{
+  border-color: chartreuse;
+}
+
+.stroked-button-grey{
+  border-color: rgb(117, 117, 117)
 }
 
 .true {

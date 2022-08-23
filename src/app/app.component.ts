@@ -10,9 +10,8 @@ import { TutorialComponent } from './components/dialog/tutorial/tutorial.compone
 export class AppComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
-    private dbService: NgxIndexedDBService
+    private dbService: NgxIndexedDBService,
   ) {}
-
   ngOnInit(): void {
     this.checkShowTutorial();
   }

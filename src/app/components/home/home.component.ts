@@ -11,7 +11,10 @@ import { Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { ThemeService } from '../../services/theme.service';
 import { IpcRenderer } from 'electron';
-
+import { MatDialog } from '@angular/material/dialog';
+import { TutorialComponent } from '../dialog/tutorial/tutorial.component';
+import { ToastrService } from 'ngx-toastr';
+import {environment} from '../../../environments/environment';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -23,7 +26,9 @@ export class HomeComponent implements OnInit {
   public package!: any;
   darkTheme = new FormControl(true);
   public ipc: IpcRenderer | undefined;
-
+  private errorCode!: number;
+  public appVersion = environment.appVersion;
+  
   constructor(
     public deviceStorage: DeviceStorage,
     private dbService: NgxIndexedDBService,
@@ -33,7 +38,9 @@ export class HomeComponent implements OnInit {
     public httpService: HttpService,
     public _bottomSheet: MatBottomSheet,
     private _mqttService: MqttService,
-    private ThemeService: ThemeService
+    private ThemeService: ThemeService,
+    public dialog: MatDialog,
+    private toastr: ToastrService
   ) {
     //Switch Darkmode / Lightmode
     this.darkTheme.valueChanges.subscribe((value) => {
@@ -56,10 +63,10 @@ export class HomeComponent implements OnInit {
       if (adapter.length === 0) {
         this.router.navigate(['/setup']);
       }
-      
+
       this.deviceStorage.Devices = adapter;
     });
-    
+
     this.dbService.getByKey('darkmode', 1).subscribe((darkMode: any) => {
       if (darkMode !== undefined) {
         this.global.darkMode = darkMode.darkmode;
@@ -115,10 +122,30 @@ export class HomeComponent implements OnInit {
     // First url call set credentials secend call (SettingsComponent call the adapter URL)
     this.httpService
       .login(this.global.ip, this.global.userName, this.global.password)
-      .subscribe();
-    //
+      .subscribe({
+        error: (error) => {  
+          if (error.status === 401) {
+            this.errorCode = error.status;
+            this.toastr.error(
+              'Unauthorized access 401 </br> No or wrong credentials </br> for this adapter',
+              '',
+              {
+                closeButton: true,
+                timeOut: 4000,
+                progressBar: true,
+                enableHtml: true
+              }
+            );
+          } else {
+            this.errorCode = error.status;
+          }
+        }
+      });
+
     setTimeout(() => {
-      this._bottomSheet.open(SettingsComponent);
+      if (this.errorCode !== 401) {
+        this._bottomSheet.open(SettingsComponent);
+      }
     }, 500);
   }
 
@@ -151,10 +178,13 @@ export class HomeComponent implements OnInit {
           }
         });
       },
-      error: (err: any) => {
-        //console.log(err);
-      }
+      error: (err: any) => {}
     });
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(TutorialComponent);
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   saveGlobal() {

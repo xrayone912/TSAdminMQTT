@@ -33,7 +33,7 @@ import { DeviceStorage, global } from './models/devices';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DBConfig, NgxIndexedDBModule } from 'ngx-indexed-db';
 import { Room_Array } from './models/rooms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { SettingsComponent } from './components/settings/settings.component';
 import { IMqttServiceOptions, MqttModule } from 'ngx-mqtt';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -172,10 +172,10 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     MatSlideToggleModule,
     MatExpansionModule,
     HttpClientModule,
-    ToastrModule.forRoot(), // ToastrModule added
+    ToastrModule.forRoot(),
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
-    NgxIndexedDBModule.forRoot(dbConfig)
-  ],
+    NgxIndexedDBModule.forRoot(dbConfig),
+    ],
   providers: [DeviceStorage, Room_Array, global],
   bootstrap: [AppComponent]
 })

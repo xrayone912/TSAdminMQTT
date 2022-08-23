@@ -7,6 +7,7 @@
         </mat-card-title>
       </mat-card-header>
       <mat-card-content>
+        <h3>Room list</h3>
         <form [formGroup]="secondFormGroup">
           <ng-template matStepLabel>Add rooms</ng-template>
           <mat-form-field>
@@ -19,7 +20,7 @@
             /> </mat-form-field
           ><button
             mat-stroked-button
-            style="border-color: chartreuse; margin-left: 25px"
+            class="stroked-button-green"
             (click)="addRoom(roomName)"
           >
             Add
@@ -27,11 +28,11 @@
           <div *ngIf="this.roomsArray.Rooms.length !== 0">
             <div
               cdkDropList
-              class="example-list"
+              class="drop-list"
               (cdkDropListDropped)="dropRooms($event)"
             >
               <div
-                class="example-box"
+                class="drop-box"
                 *ngFor="let room of this.roomsArray.Rooms"
                 cdkDrag
                 [cdkDragDisabled]="true"
@@ -39,7 +40,7 @@
                 {{ room.name
                 }}<button
                   mat-stroked-button
-                  style="border-color: #fa3535"
+                 class="stroked-button-red"
                   (click)="deleteRoom(room.id)"
                 >
                   Delete
@@ -62,6 +63,7 @@
         </mat-card-title>
       </mat-card-header>
       <mat-card-content>
+        <h3>Tasmota devices list</h3>
         <form [formGroup]="thirdFormGroup">
           <div *ngIf="!hideSpinner && scan">
             <mat-spinner></mat-spinner>
@@ -69,11 +71,11 @@
           <div *ngIf="hideSpinner">
             <div
               cdkDropList
-              class="example-list"
-              (cdkDropListDropped)="dropDevices($event)"
+              class="drop-list"
+              (cdkDropListDropped)="dropDevices($event, true)"
             >
               <div
-                class="example-box"
+                class="drop-box"
                 *ngFor="let device of this.deviceStorage.Devices; let i = index"
                 cdkDrag
                 [cdkDragDisabled]="false"
@@ -130,13 +132,12 @@
                   </mat-panel-title>
                   <mat-panel-description>
                     <mat-checkbox
-                      class="example-margin"
                       [(ngModel)]="this.deviceStorage.Devices[i].setCredentials"
                       >Set credentials</mat-checkbox
                     >
                   </mat-panel-description>
                 </mat-expansion-panel-header>
-                <mat-form-field class="example-full-width">
+                <mat-form-field class="full-width">
                   <mat-label>Username</mat-label>
                   <input
                     matInput
@@ -144,7 +145,7 @@
                     [(ngModel)]="this.deviceStorage.Devices[i].userName"
                   />
                 </mat-form-field>
-                <mat-form-field class="example-full-width">
+                <mat-form-field class="full-width">
                   <mat-label>Password</mat-label>
                   <input
                     matInput
@@ -153,7 +154,6 @@
                     [type]="hide ? 'password' : 'text'"
                     [(ngModel)]="this.deviceStorage.Devices[i].password"
                   />
-                  <!-- <button type="submit">save</button> -->
                 </mat-form-field>
               </mat-expansion-panel>
             </mat-accordion>
@@ -173,7 +173,6 @@
         Next
       </button>
     </div>
-    <!--     </div> -->
   </mat-step>
 
   <mat-step>
@@ -183,7 +182,7 @@
       <button mat-stroked-button class="buttonSpace" matStepperPrevious>
         Back
       </button>
-      <button mat-stroked-button class="buttonSpace" (click)="saveAdapter()">
+      <button mat-stroked-button class="buttonSpace" (click)="saveAdapter(false)">
         Finish Setup
       </button>
     </div>
