@@ -74,6 +74,7 @@
   margin-left: 15px;
   border-color: var(--text-color) !important;
   color: var(--text-color) !important;
+  width: 180px;
 }
 
 ::ng-deep .mat-tab-group[mat-stretch-tabs] > .mat-tab-header .mat-tab-label {
@@ -111,10 +112,6 @@
 .false {
   color: #ff7777;
   padding-left: 1px;
-}
-
-.button-size{
-
 }
 
 ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,

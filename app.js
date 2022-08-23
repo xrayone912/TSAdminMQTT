@@ -10,7 +10,7 @@ function createWindow() {
   app.mqtt = require(path.join(__dirname, '/src/app/services/mqtt/mqtt.js'))();
   mainWindow = new BrowserWindow({
     width: 1280,
-    height: 720,
+    height: 850,
     icon: __dirname + '/src/favicon.ico',
     autoHideMenuBar: true,
     useContentSize: true,
