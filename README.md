@@ -1,14 +1,45 @@
+
 # TSAdminMQTT
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.1.
+TSAdminMQTT is an application to control and manage SmartHome devices running with Tasmota
+
+
+## Features
+
+- Light/dark mode toggle
+- Assign devices to room
+- Manage Tasmota devices
+- Includes an MQTT broker
+- Displays live power states of the device 
+
+
+## Tech Stack
+
+**Client:** Angular 14.1.1
+
+**MQTT Broker:** Aedes https://github.com/moscajs/aedes
+
+**NGX-Indexed-DB:** https://github.com/assuncaocharles/ngx-indexed-db
+
+**UI:** Angular Material  https://material.angular.io/
+
+
+## Screenshot
+
+![App Screenshot](https://www.dropbox.com/s/9auv6rlbkphljxr/Screenshot%202022-08-24%20094030.png?dl=1)
+
+
+## Running Tests
+
+To run tests, run the following command
+
+```bash
+  npm run test
+```
 
 ## Start TSAdminMQTT development
 
 Run `npm start` for start TSAdminMQTT 
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ## Build
 
@@ -17,7 +48,3 @@ Run `npm run electron-package-win` to build the project.
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
