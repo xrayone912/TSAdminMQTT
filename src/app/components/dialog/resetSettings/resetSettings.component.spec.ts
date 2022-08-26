@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { ResetSettingsComponent } from './resetSettings.component';
+import { AppModule } from 'src/app/app.module';
 
 describe('ResetSettingsComponent', () => {
   let component: ResetSettingsComponent;
@@ -11,7 +12,8 @@ describe('ResetSettingsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ResetSettingsComponent ]
+      declarations: [ ResetSettingsComponent ],
+      imports: [AppModule]
     })
     .compileComponents();
   }));

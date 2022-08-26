@@ -1,7 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  MatBottomSheetRef
-} from '@angular/material/bottom-sheet';
+import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { HttpService } from '../../services/http.service';
 import { global } from '../../models/devices';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -28,8 +26,6 @@ export class SettingsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.error);
-    
     this.urlConfig = 'http://' + this.global.ip + '/?';
 
     this.trustedUrlConfig = this.sanitizer.bypassSecurityTrustResourceUrl(

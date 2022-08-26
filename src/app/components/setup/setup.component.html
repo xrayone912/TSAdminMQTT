@@ -128,7 +128,11 @@
               >
                 <mat-expansion-panel-header>
                   <mat-panel-title>
-                    {{ device.FriendlyName }}
+                    <input
+                    matInput
+                    placeholder=""
+                    [(ngModel)]="this.deviceStorage.Devices[i].FriendlyName"
+                  />
                   </mat-panel-title>
                   <mat-panel-description>
                     <mat-checkbox
@@ -155,6 +159,9 @@
                     [(ngModel)]="this.deviceStorage.Devices[i].password"
                   />
                 </mat-form-field>
+                <div *ngIf="this.deviceStorage.Devices[i].Module === undefined" >
+                  <button mat-stroked-button class="buttonSpace" (click)="updateCredentials(i)">Refresh Device</button>
+                </div>          
               </mat-expansion-panel>
             </mat-accordion>
             <br />

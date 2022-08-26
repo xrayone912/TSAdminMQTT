@@ -4,6 +4,9 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { SettingsComponent } from './settings.component';
+import { AppModule } from 'src/app/app.module';
+import { HomeComponent } from '../home/home.component';
+import { MatBottomSheetModule, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 describe('SettingsComponent', () => {
   let component: SettingsComponent;
@@ -11,7 +14,9 @@ describe('SettingsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SettingsComponent ]
+      declarations: [ SettingsComponent],
+      providers:[{ provide: MatBottomSheetRef, useValue: {} }],
+      imports: [AppModule]
     })
     .compileComponents();
   }));

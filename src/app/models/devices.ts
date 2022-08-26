@@ -21,7 +21,6 @@ export interface Devices {
   setCredentials: boolean;
   userName: string;
   password: string;
-  isAlive: boolean;
 }
 
 export class DeviceStorage {

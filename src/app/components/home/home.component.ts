@@ -14,7 +14,7 @@ import { IpcRenderer } from 'electron';
 import { MatDialog } from '@angular/material/dialog';
 import { TutorialComponent } from '../dialog/tutorial/tutorial.component';
 import { ToastrService } from 'ngx-toastr';
-import {environment} from '../../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { ResetSettingsComponent } from '../dialog/resetSettings/resetSettings.component';
 @Component({
   selector: 'app-home',
@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
   public ipc: IpcRenderer | undefined;
   private errorCode!: number;
   public appVersion = environment.appVersion;
-  
+
   constructor(
     public deviceStorage: DeviceStorage,
     private dbService: NgxIndexedDBService,
@@ -124,7 +124,7 @@ export class HomeComponent implements OnInit {
     this.httpService
       .login(this.global.ip, this.global.userName, this.global.password)
       .subscribe({
-        error: (error) => {  
+        error: (error) => {
           if (error.status === 401) {
             this.errorCode = error.status;
             this.toastr.error(

@@ -28,4 +28,9 @@ export class HttpService {
     
       return this.http.get<any>(this.baseUrl + username + ':' + password + '@' + ip)
     }
+
+    updateCredentials(ip: string, username: string, password: string): Observable<any> {
+      let credentials = "/cm?user=" + username + '&password=' + password + '&cmnd=status'
+      return this.http.get<any>(this.baseUrl + ip + credentials)
+    }
 }

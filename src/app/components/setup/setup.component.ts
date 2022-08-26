@@ -6,6 +6,7 @@ import { Room_Array } from '../../models/rooms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ToastrService } from 'ngx-toastr';
 import { IpcRenderer } from 'electron';
+import { HttpService } from 'src/app/services/http.service';
 
 declare const findAllDevices: any;
 
@@ -31,6 +32,7 @@ export class SetupComponent implements OnInit {
     private _formBuilder: FormBuilder,
     public roomsArray: Room_Array,
     private toastr: ToastrService,
+    public httpService: HttpService
   ) {
     if ((<any>window).require) {
       try {
@@ -79,6 +81,22 @@ export class SetupComponent implements OnInit {
     }, 15000);
   }
 
+  updateCredentials(index: number) {
+    let ip = this.deviceStorage.Devices[index].ip;
+    let username = this.deviceStorage.Devices[index].userName;
+    let password = this.deviceStorage.Devices[index].password;
+    this.httpService.updateCredentials(ip, username, password).subscribe({
+      next: (data: any) => {
+        data['Status'].ip = ip;
+        data['Status'].userName = username;
+        data['Status'].password = password;
+        data['Status'].setCredentials = true;
+        this.deviceStorage.Devices.splice(index, 1, data['Status']);
+        this.showUpdate();
+      }
+    });
+  }
+
   saveAdapter(drop: boolean) {
     this.dbService.clear('adpater').subscribe((successDeleted) => {});
     this.deviceStorage.Devices.forEach((element) => {
@@ -124,7 +142,6 @@ export class SetupComponent implements OnInit {
     }, 2000);
   }
 
-  // Add room to NgxIndexedDB
   addRoom(name: string) {
     this.dbService
       .add('rooms', {
@@ -187,9 +204,24 @@ export class SetupComponent implements OnInit {
   }
 
   showSuccess() {
-    this.toastr.success('Successfully saved', '', {closeButton: true, timeOut: 4000, progressBar: true});
+    this.toastr.success('Successfully saved', '', {
+      closeButton: true,
+      timeOut: 4000,
+      progressBar: true
+    });
   }
   showRestart() {
-    this.toastr.warning('Application restarts','', {closeButton: true, timeOut: 4000, progressBar: true});
+    this.toastr.warning('Application restarts', '', {
+      closeButton: true,
+      timeOut: 4000,
+      progressBar: true
+    });
+  }
+  showUpdate(){
+    this.toastr.success('Adapter successfully updated', '', {
+      closeButton: true,
+      timeOut: 4000,
+      progressBar: true
+    });
   }
 }

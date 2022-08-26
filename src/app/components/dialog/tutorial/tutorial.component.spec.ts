@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { TutorialComponent } from './tutorial.component';
+import { AppModule } from 'src/app/app.module';
 
 describe('TutorialComponent', () => {
   let component: TutorialComponent;
@@ -11,7 +12,8 @@ describe('TutorialComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TutorialComponent ]
+      declarations: [ TutorialComponent ],
+       imports: [AppModule]
     })
     .compileComponents();
   }));

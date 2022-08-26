@@ -1,4 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick
+} from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { MqttService } from 'ngx-mqtt';
+import { AppModule } from 'src/app/app.module';
+import { HomeComponent } from '../home/home.component';
 
 import { SetupComponent } from './setup.component';
 
@@ -8,9 +17,10 @@ describe('SetupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SetupComponent ]
-    })
-    .compileComponents();
+      declarations: [SetupComponent],
+      imports: [AppModule],
+      providers: []
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SetupComponent);
     component = fixture.componentInstance;
@@ -20,4 +30,5 @@ describe('SetupComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });
