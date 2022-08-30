@@ -1,6 +1,6 @@
 {
   "name": "tsadmin-mqtt",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "app.js",
   "scripts": {
     "ng": "ng",
@@ -11,7 +11,9 @@
     "test": "ng test",
     "lint": "npx eslint 'src/**/*.{js,jsx,ts,tsx,html,css,scss}' --quiet --fix",
     "format": "npx prettier 'src/**/*.{js,jsx,ts,tsx,html,css,scss}' --write",
-    "electron-package-win": " npm run prebuild && ng build && electron-packager . TSAdminMQTT --platform=win32 --arch=x64 --asar --overwrite --icon=./src/favicon.ico --our=TSAdminMQTT_x86 --ignore=^/.angular",
+    "electron-package-windows": " npm run prebuild && ng build && electron-packager . TSAdminMQTT --platform=win32 --arch=x64 --asar --overwrite --icon=./src/favicon.ico --our=TSAdminMQTT_Windows --ignore=^/.angular",
+    "electron-package-linux": " npm run prebuild && ng build && electron-packager . TSAdminMQTT --platform=linux --arch=x64 --asar --overwrite --icon=./src/favicon.ico --our=TSAdminMQTT_Linux --ignore=^/.angular",
+    "electron-package-macOS": " npm run prebuild && ng build && electron-packager . TSAdminMQTT --platform=darwin --arch=x64 --asar --overwrite --icon=./src/favicon.ico --our=TSAdminMQTT_MacOS --ignore=^/.angular",
     "e2e": "ng e2e"
   },
   "private": true,
