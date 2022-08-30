@@ -6,6 +6,7 @@ TSAdminMQTT is an application to control and manage SmartHome devices running wi
 
 ## Features
 
+- Electron v20.0.1 build for Win, Linux, Mac
 - Light/dark mode toggle
 - Assign devices to room
 - Manage Tasmota devices
@@ -15,7 +16,7 @@ TSAdminMQTT is an application to control and manage SmartHome devices running wi
 
 ## Tech Stack
 
-**Client:** Angular 14.1.1
+**Client:** Angular 14.1.1 with Electron
 
 **MQTT Broker:** Aedes https://github.com/moscajs/aedes
 
