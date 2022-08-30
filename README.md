@@ -46,9 +46,19 @@ To run tests, run the following command
 
 Run `npm start` for start TSAdminMQTT 
 
-## Build
+## Build Windows
 
-Run `npm run electron-package-win` to build the project.
+Run `npm run electron-package-windows` to build the project.
+
+## Build Linux 
+
+Run `npm run electron-package-linux` to build the project.
+
+## MacOs
+
+!!! Important the MacOs build must be done under a Linux operating system !!!
+
+Run `npm run electron-package-macOs` to build the project.
 
 ## Running unit tests
 
