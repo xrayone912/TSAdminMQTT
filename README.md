@@ -15,18 +15,19 @@ TSAdminMQTT is an application to control and manage SmartHome devices running wi
 - Assign devices to room
 - Manage Tasmota devices
 - Includes an [MQTT broker](https://github.com/moscajs/aedes)
-- Displays live power states of the device 
+- Displays live power states of the device
+- Data / Settings storage in an [ngx-indexed-db](https://github.com/assuncaocharles/ngx-indexed-db)
 
 
 ## Tech Stack
 
-**Client:** Angular 14.1.3 with Electron v20.0.1 build for Win, Linux, Mac 
+**Client:** [Angular](https://angular.io/) 14.1.3 with Electron v20.0.1 build for Win, Linux, Mac 
 
-**MQTT Broker:** Aedes https://github.com/moscajs/aedes
+**MQTT Broker:** [Aedes](https://github.com/moscajs/aedes)
 
-**NGX-Indexed-DB:** https://github.com/assuncaocharles/ngx-indexed-db
+**DataBase** [ngx-indexedDB](https://github.com/assuncaocharles/ngx-indexed-db)
 
-**UI:** Angular Material  https://material.angular.io/
+**UI:** [Angular Material](https://material.angular.io/)
 
 
 ## Screenshot
