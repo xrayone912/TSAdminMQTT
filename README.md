@@ -20,7 +20,7 @@ TSAdminMQTT is an application to control and manage SmartHome devices running wi
 
 ## Tech Stack
 
-**Client:** Angular 14.1.1 with Electron v20.0.1 build for Win, Linux, Mac 
+**Client:** Angular 14.1.3 with Electron v20.0.1 build for Win, Linux, Mac 
 
 **MQTT Broker:** Aedes https://github.com/moscajs/aedes
 
