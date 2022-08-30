@@ -43,6 +43,12 @@ To run tests, run the following command
   npm run test
 ```
 
+## Requirements
+
+- Angular CLI: 14.2.1
+- Node: 14.17.5
+- Package Manager: npm 6.14.14 
+
 ## Start TSAdminMQTT development
 
 Run `npm start` for start TSAdminMQTT 
