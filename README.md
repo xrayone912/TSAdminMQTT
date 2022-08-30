@@ -1,7 +1,7 @@
 
 # TSAdminMQTT
 
-TSAdminMQTT is an application to control and manage SmartHome devices running with Tasmota
+TSAdminMQTT is an application to control and manage SmartHome devices running with [Tasmota](https://github.com/arendst/Tasmota) 
 
 
 ## Features
