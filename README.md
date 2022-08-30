@@ -14,7 +14,7 @@ TSAdminMQTT is an application to control and manage SmartHome devices running wi
 - Light/dark mode toggle
 - Assign devices to room
 - Manage Tasmota devices
-- Includes an MQTT broker
+- Includes an [MQTT broker](https://github.com/moscajs/aedes)
 - Displays live power states of the device 
 
 
