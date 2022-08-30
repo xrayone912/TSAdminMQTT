@@ -34,6 +34,11 @@ TSAdminMQTT is an application to control and manage SmartHome devices running wi
 
 ![App Screenshot](https://i.postimg.cc/02qz0BZb/Screenshot-2022-08-24-094030.png)
 
+## Requirements
+
+- Angular CLI: 14.2.1
+- Node: 14.17.5
+- Package Manager: npm 6.14.14 
 
 ## Running Tests
 
@@ -42,12 +47,6 @@ To run tests, run the following command
 ```bash
   npm run test
 ```
-
-## Requirements
-
-- Angular CLI: 14.2.1
-- Node: 14.17.5
-- Package Manager: npm 6.14.14 
 
 ## Start TSAdminMQTT development
 
