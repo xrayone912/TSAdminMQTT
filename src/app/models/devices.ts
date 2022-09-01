@@ -21,6 +21,8 @@ export interface Devices {
   setCredentials: boolean;
   userName: string;
   password: string;
+  sw: string;
+  wifiSingnal: number;
 }
 
 export class DeviceStorage {

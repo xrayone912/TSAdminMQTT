@@ -34,7 +34,7 @@ aedes.on('publish', function (packet, client) {
     //console.log('message from client', client.id)
     var stringBuf = packet.payload.toString('utf-8');
        //console.log(stringBuf);
-       aedes.publish(packet)
+       //aedes.publish(packet)
   }
 })
 

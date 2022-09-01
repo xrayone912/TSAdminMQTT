@@ -78,9 +78,22 @@ export class HomeComponent implements OnInit {
 
     this._mqttService.connect();
 
+    this.watchMqttStates();
+
+    this.getDeviceStatus();
+  }
+
+  watchMqttStates() {
     this.subscription = this._mqttService
       .observe('#')
       .subscribe((message: IMqttMessage) => {
+        var isValidJSON = true;
+        try {
+          JSON.parse(message.payload.toString());
+        } catch {
+          isValidJSON = false;
+        }
+
         this.message = message.payload.toString();
         this.package = message.topic;
 
@@ -89,6 +102,44 @@ export class HomeComponent implements OnInit {
         var findDeviceById = this.deviceStorage.Devices.filter(
           (x) => x.ip === r[0]
         );
+
+        if (isValidJSON) {
+          var json = JSON.parse(message.payload.toString());
+
+          try {
+            if (json['StatusFWR'].Version !== undefined) {
+              this.deviceStorage.Devices = this.deviceStorage.Devices.map((x) =>
+                x.ip === r[0]
+                  ? {
+                      ...x,
+                      sw: json['StatusFWR'].Version.replace(
+                        / *\([^)]*\) */g,
+                        ''
+                      )
+                    }
+                  : x
+              );
+            }
+          } catch (error) {}
+
+          try {
+            if (json['Status'].Power !== undefined) {
+              this.deviceStorage.Devices = this.deviceStorage.Devices.map((x) =>
+                x.ip === r[0] ? { ...x, Power: json['Status'].Power } : x
+              );
+            }
+          } catch (error) {}
+        }
+
+        try {
+          if (json['StatusSTS']['Wifi'].RSSI !== undefined) {
+            this.deviceStorage.Devices = this.deviceStorage.Devices.map((x) =>
+              x.ip === r[0]
+                ? { ...x, wifiSingnal: json['StatusSTS']['Wifi'].RSSI }
+                : x
+            );
+          }
+        } catch (error) {}
 
         if (findDeviceById.length > 0) {
           switch (this.message) {
@@ -112,6 +163,36 @@ export class HomeComponent implements OnInit {
           }
         }
       });
+  }
+
+  getDeviceStatus() {
+    this.dbService.getAll('adpater').subscribe((adapter: any[]) => {
+      adapter.forEach((element) => {
+        this._mqttService
+          .publish('cmnd/' + element.ip + '/STATUS', '0', {
+            qos: 1,
+            retain: true
+          })
+          .subscribe((message: any) => {});
+      });
+    });
+  }
+
+  wifiSignalStrengthCalc(signal: number) {
+    if (signal >= 66) {
+      return 1;
+    }
+    if (signal >= 40 && signal <= 65) {
+      return 2;
+    }
+    if (signal >= 25 && signal <= 39) {
+      return 3;
+    }
+    if (signal <= 25) {
+      return 4;
+    }
+
+    return null;
   }
 
   openBottomSheet(ip: any, userName: string, password: string): void {
@@ -150,37 +231,22 @@ export class HomeComponent implements OnInit {
     }, 500);
   }
 
-  DevicePowerOn(
-    ip: string,
-    power: number,
-    userName: string,
-    password: string
-  ): void {
-    var param;
-    var paramPowerOn =
-      '/cm?user=' + userName + '&password=' + password + '&cmnd=Power%20On';
-    var paramPowerOff =
-      '/cm?user=' + userName + '&password=' + password + '&cmnd=Power%20Off';
-
+  DevicePowerOn(ip: string, power: number): void {
     if (power === 0) {
-      param = paramPowerOn;
+      this._mqttService
+        .publish('cmnd/' + ip + '/POWER', '1', {
+          qos: 1,
+          retain: true
+        })
+        .subscribe((message: any) => {});
     } else {
-      param = paramPowerOff;
+      this._mqttService
+        .publish('cmnd/' + ip + '/POWER', '0', {
+          qos: 1,
+          retain: true
+        })
+        .subscribe((message: any) => {});
     }
-
-    this.httpService.adapterPowerOn(ip, param).subscribe({
-      next: (data: Devices) => {
-        const powerOnState = Object.values(data);
-        this.deviceStorage.Devices.forEach((element) => {
-          if (element.ip === ip && powerOnState[0] === 'ON') {
-            element.Power = 1;
-          } else if (element.ip === ip && powerOnState[0] === 'OFF') {
-            element.Power = 0;
-          }
-        });
-      },
-      error: (err: any) => {}
-    });
   }
 
   openTutorialDialog() {

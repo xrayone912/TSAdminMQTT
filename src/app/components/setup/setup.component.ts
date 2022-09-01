@@ -217,7 +217,7 @@ export class SetupComponent implements OnInit {
       progressBar: true
     });
   }
-  showUpdate(){
+  showUpdate() {
     this.toastr.success('Adapter successfully updated', '', {
       closeButton: true,
       timeOut: 4000,

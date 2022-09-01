@@ -26,6 +26,7 @@ import {
   MatBottomSheetModule
 } from '@angular/material/bottom-sheet';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -33,7 +34,7 @@ import { DeviceStorage, global } from './models/devices';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DBConfig, NgxIndexedDBModule } from 'ngx-indexed-db';
 import { Room_Array } from './models/rooms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { SettingsComponent } from './components/settings/settings.component';
 import { IMqttServiceOptions, MqttModule } from 'ngx-mqtt';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -173,11 +174,12 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     MatBottomSheetModule,
     MatSlideToggleModule,
     MatExpansionModule,
+    MatProgressBarModule,
     HttpClientModule,
     ToastrModule.forRoot(),
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
-    NgxIndexedDBModule.forRoot(dbConfig),
-    ],
+    NgxIndexedDBModule.forRoot(dbConfig)
+  ],
   providers: [DeviceStorage, Room_Array, global],
   bootstrap: [AppComponent]
 })

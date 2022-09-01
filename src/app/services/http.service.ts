@@ -6,31 +6,23 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class HttpService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
+  baseUrl = 'http://';
 
-  
-  baseUrl = "http://"
-    
-  adapterPowerOn(ip: string, param: string): Observable<any> {
-      const headerDict = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      }
-      const requestOptions = {                                                                                                                                                                                 
-        headers: new HttpHeaders(headerDict), 
-      };    
-      return this.http.get<any>(this.baseUrl + ip + param)
-    }
+  login(ip: string, username: string, password: string): Observable<any> {
+    return this.http.get<any>(
+      this.baseUrl + username + ':' + password + '@' + ip
+    );
+  }
 
-    login(ip: string, username: string, password: string): Observable<any> {
-    
-      return this.http.get<any>(this.baseUrl + username + ':' + password + '@' + ip)
-    }
-
-    updateCredentials(ip: string, username: string, password: string): Observable<any> {
-      let credentials = "/cm?user=" + username + '&password=' + password + '&cmnd=status'
-      return this.http.get<any>(this.baseUrl + ip + credentials)
-    }
+  updateCredentials(
+    ip: string,
+    username: string,
+    password: string
+  ): Observable<any> {
+    let credentials =
+      '/cm?user=' + username + '&password=' + password + '&cmnd=status';
+    return this.http.get<any>(this.baseUrl + ip + credentials);
+  }
 }

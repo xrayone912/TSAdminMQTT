@@ -24,10 +24,12 @@
                 <mat-card-title>{{ device.FriendlyName }}</mat-card-title>
               </mat-card-header>
               <mat-card-content>
-                <table *ngIf="device.Room === item.id">
+                <table style="width: 100%" *ngIf="device.Room === item.id">
                   <tr>
-                    <th>PowerState</th>
-                    <th>Adapter IP</th>
+                    <th style="text-align: left">PowerState</th>
+                    <th style="text-align: left">Adapter IP</th>
+                    <th style="text-align: left">TS Version</th>
+                    <th style="text-align: left">WIFI</th>
                   </tr>
                   <tr>
                     <mat-icon
@@ -38,6 +40,44 @@
                       >grain</mat-icon
                     >
                     <td style="margin-left: 100px">{{ device.ip }}</td>
+                    <td
+                      *ngIf="device.sw !== undefined"
+                      style="margin-left: 200px"
+                    >
+                      {{ device.sw }}
+                    </td>
+                    <mat-progress-bar
+                      *ngIf="device.sw === undefined"
+                      mode="indeterminate"
+                    ></mat-progress-bar>
+                    <td style="margin-left: 100px">
+                      <mat-icon
+                        class="wifi-green"
+                        *ngIf="wifiSignalStrengthCalc(device.wifiSingnal) === 1"
+                        >signal_cellular_alt</mat-icon
+                      >
+                      <mat-icon
+                        class="wifi-yellow"
+                        *ngIf="wifiSignalStrengthCalc(device.wifiSingnal) === 2"
+                        >signal_cellular_alt_2_bar</mat-icon
+                      >
+                      <mat-icon
+                        class="wifi-red"
+                        *ngIf="wifiSignalStrengthCalc(device.wifiSingnal) === 3"
+                        >signal_cellular_alt_1_bar</mat-icon
+                      >
+                      <mat-icon
+                        class="wifi-red"
+                        *ngIf="wifiSignalStrengthCalc(device.wifiSingnal) === 4"
+                        >signal_wifi_bad</mat-icon
+                      >
+                      <tr
+                        class="wifi-red"
+                        *ngIf="device.wifiSingnal === undefined"
+                      >
+                        N/A
+                      </tr>
+                    </td>
                   </tr>
                 </table>
               </mat-card-content>
@@ -46,14 +86,8 @@
                   mat-stroked-button
                   class="stroked-button-red"
                   *ngIf="device.Power === 0"
-                  (click)="
-                    DevicePowerOn(
-                      device.ip,
-                      device.Power,
-                      device.userName,
-                      device.password
-                    )
-                  "
+                  [disabled]="device.sw === undefined"
+                  (click)="DevicePowerOn(device.ip, device.Power)"
                 >
                   Off
                 </button>
@@ -61,20 +95,15 @@
                   mat-stroked-button
                   class="stroked-button-green"
                   *ngIf="device.Power === 1"
-                  (click)="
-                    DevicePowerOn(
-                      device.ip,
-                      device.Power,
-                      device.userName,
-                      device.password
-                    )
-                  "
+                  [disabled]="device.sw === undefined"
+                  (click)="DevicePowerOn(device.ip, device.Power)"
                 >
                   On
                 </button>
                 <button
                   mat-stroked-button
                   class="stroked-button-grey"
+                  [disabled]="device.sw === undefined"
                   (click)="
                     openBottomSheet(device.ip, device.userName, device.password)
                   "
@@ -92,23 +121,30 @@
     <mat-card class="mat-elevation-z4">
       <mat-card-header style="text-align: center">
         <mat-card-title
-          >TSAdminMQTT &nbsp; {{ 'v' + this.appVersion }}<mat-slide-toggle
+          >TSAdminMQTT &nbsp; {{ 'v' + this.appVersion
+          }}<mat-slide-toggle
             [(ngModel)]="this.global.darkMode"
             (click)="this.saveGlobal()"
             [formControl]="darkTheme"
             >DarkMode</mat-slide-toggle
           >
-          <div fxLayout="column" fxLayoutAlign="space-around end" >
-            
-          <button mat-stroked-button class="buttonSpace" (click)="openTutorialDialog()">
-            Tutorial
-          </button>
-          <button mat-stroked-button class="stroked-button-reset" (click)="openResetDialog()">
-            Restore default settings
-          </button>
+          <div fxLayout="column" fxLayoutAlign="space-around end">
+            <button
+              mat-stroked-button
+              class="buttonSpace"
+              (click)="openTutorialDialog()"
+            >
+              Tutorial
+            </button>
+            <button
+              mat-stroked-button
+              class="stroked-button-reset"
+              (click)="openResetDialog()"
+            >
+              Restore default settings
+            </button>
           </div>
-          </mat-card-title
-        >
+        </mat-card-title>
       </mat-card-header>
       <mat-card-content> </mat-card-content>
       <mat-card-actions> </mat-card-actions>

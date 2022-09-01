@@ -66,7 +66,7 @@
 .mat-card {
   background-color: var(--background-color-card);
   color: var(--text-color) !important;
-  min-width: 250px !important;
+  min-width: 350px !important;
 }
 
 .buttonSpace {
@@ -83,12 +83,23 @@
   color: var(--text-color) !important;
 }
 
-.stroked-button-red{
+.stroked-button-red {
   border-color: #fa3535;
-  color: var(--text-color) !important;
 }
 
-.stroked-button-reset{
+.wifi-green {
+  color: #9cfb2b;
+}
+
+.wifi-yellow {
+  color: yellow;
+}
+
+.wifi-red {
+  color: #fa3535;
+}
+
+.stroked-button-reset {
   border-color: #fa3535;
   margin-top: 10px;
   margin-left: 15px;
@@ -96,12 +107,12 @@
   color: var(--text-color) !important;
 }
 
-.stroked-button-green{
+.stroked-button-green {
   border-color: chartreuse;
 }
 
-.stroked-button-grey{
-  border-color: rgb(117, 117, 117)
+.stroked-button-grey {
+  border-color: rgb(117, 117, 117);
 }
 
 .true {
@@ -140,4 +151,16 @@
 ::ng-deep .mat-card-header {
   display: grid !important;
   flex-direction: row !important;
+}
+
+::ng-deep .mat-progress-bar-fill::after {
+  background-color: #9cfb2b;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: #363636;
+}
+
+::ng-deep .mat-progress-bar {
+  border-radius: 2px;
 }
