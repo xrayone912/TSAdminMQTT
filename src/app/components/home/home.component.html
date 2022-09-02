@@ -21,7 +21,7 @@
               class="mat-elevation-z4 || mat-card"
             >
               <mat-card-header style="text-align: center">
-                <mat-card-title>{{ device.FriendlyName }}</mat-card-title>
+                <mat-card-title>{{ device.FriendlyName }} </mat-card-title>
               </mat-card-header>
               <mat-card-content>
                 <table style="width: 100%" *ngIf="device.Room === item.id">
@@ -110,6 +110,34 @@
                 >
                   Settings
                 </button>
+                <button
+                  mat-stroked-button
+                  #tooltip="matTooltip"
+                  matTooltip="Backup Configuration"
+                  [disabled]="device.sw === undefined"
+                  class="stroked-button-blue"
+                  (click)="backup(device.ip)"
+                >
+                  Backup
+                </button>
+                <mat-select
+                  [disabled]="device.sw === undefined"
+                  (click)="readBackupFolder(device.ip)"
+                >
+                  <mat-option>Available Backups for {{ device.ip }}</mat-option>
+                  <mat-option
+                    disabled
+                    *ngFor="let file of backupFiles"
+                    [value]=""
+                  >
+                    {{ file }}
+                    <mat-icon
+                      class="deleteIcon"
+                      (click)="deleteBackupFile(file, device.ip)"
+                      >delete</mat-icon
+                    >
+                  </mat-option>
+                </mat-select>
               </mat-card-actions>
             </mat-card>
           </mat-grid-list>

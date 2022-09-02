@@ -115,6 +115,10 @@
   border-color: rgb(117, 117, 117);
 }
 
+.stroked-button-blue {
+  border-color: rgb(7, 144, 255);
+}
+
 .true {
   color: greenyellow;
   padding-left: 1px;
@@ -123,6 +127,12 @@
 .false {
   color: #ff7777;
   padding-left: 1px;
+}
+
+.deleteIcon {
+  color: #fa3535;
+  float: right;
+  margin-top: 7px;
 }
 
 ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,

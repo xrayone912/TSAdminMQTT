@@ -3,6 +3,8 @@ const url = require('url');
 const path = require('path');
 const { ipcMain } = require('electron');
 const ip = require('ip');
+const { download } = require('electron-dl');
+const fs = require('fs');
 
 let mainWindow;
 
@@ -25,7 +27,7 @@ function createWindow() {
   });
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+   mainWindow.webContents.openDevTools();
 
   mainWindow.loadURL(
     url.format({
@@ -44,6 +46,33 @@ ipcMain.on('restart', (event, data, webContents) => {
   event.preventDefault();
   app.exit();
   app.relaunch();
+});
+
+ipcMain.on('readFiles', (event, data, webContents) => {
+  var basepath = app.getAppPath();
+  basepath = basepath.replace('app.asar', '');
+  fs.readdir(basepath + '\\BackupConf', (err, files) => {
+    event.sender.send('files', files);
+  });
+});
+
+ipcMain.on('deleteFile', (event, data, webContents) => {
+  var basepath = app.getAppPath();
+  basepath = basepath.replace('app.asar', '');
+  fs.unlinkSync(basepath + '\\BackupConf\\' + data, (err, files) => {});
+  event.sender.send('deleted');
+});
+
+ipcMain.on('download-button', async (event, { url }, ip) => {
+  var basepath = app.getAppPath();
+  var todayDate = new Date().toISOString().slice(0, 10);
+  const win = BrowserWindow.getFocusedWindow();
+  basepath = basepath.replace('app.asar', '');
+  event.sender.send('download-success', url, basepath);
+  await download(win, url, {
+    directory: basepath + '\\BackupConf',
+    filename: ip + '_' + todayDate + '.dmp'
+  });
 });
 
 ipcMain.handle('getIp', () => {

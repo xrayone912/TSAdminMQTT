@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
   public ipc: IpcRenderer | undefined;
   private errorCode!: number;
   public appVersion = environment.appVersion;
+  public backupFiles: string[] = [];
 
   constructor(
     public deviceStorage: DeviceStorage,
@@ -259,6 +260,42 @@ export class HomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
+  deleteBackupFile(fileName: string, ip: string) {
+    this.ipc?.send('deleteFile', fileName);
+    this.ipc?.on('deleted', (event) => {
+      this.readBackupFolder(ip);
+      this.fileDeleted();
+    });
+  }
+
+  readBackupFolder(ip: string) {
+    this.backupFiles = [];
+    this.ipc?.send('readFiles');
+    this.ipc?.on('files', (event, files: string[]) => {
+      this.backupFiles = [];
+      files.forEach((element) => {
+        if (element.includes(ip)) {
+          this.backupFiles.push(element);
+        }
+      });
+    });
+  }
+
+  backup(ip: string) {
+    const baseUrl = 'http://';
+    const newURL = baseUrl + ip + '/dl';
+    this.ipc?.send(
+      'download-button',
+      {
+        url: newURL
+      },
+      ip
+    );
+    this.ipc?.on('download-success', (event, arg, base) => {
+      this.showBackupSuccess(base);
+    });
+  }
+
   saveGlobal() {
     const data = {
       darkMode: !this.darkTheme.value
@@ -279,6 +316,28 @@ export class HomeComponent implements OnInit {
           })
           .subscribe((storeData) => {});
       }
+    });
+  }
+
+  showBackupSuccess(basePath: string) {
+    this.toastr.success(
+      'Backup successfully saved </br> to path ' + basePath + '\\BackupConf',
+      '',
+      {
+        closeButton: true,
+        timeOut: 4000,
+        progressBar: true,
+        enableHtml: true
+      }
+    );
+  }
+
+  fileDeleted() {
+    this.toastr.success('File successfully deleted', '', {
+      closeButton: true,
+      timeOut: 4000,
+      progressBar: true,
+      enableHtml: true
     });
   }
 }

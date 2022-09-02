@@ -30,6 +30,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { DeviceStorage, global } from './models/devices';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DBConfig, NgxIndexedDBModule } from 'ngx-indexed-db';
@@ -175,8 +176,9 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     MatSlideToggleModule,
     MatExpansionModule,
     MatProgressBarModule,
+    MatTooltipModule,
     HttpClientModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({preventDuplicates: true}),
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
     NgxIndexedDBModule.forRoot(dbConfig)
   ],

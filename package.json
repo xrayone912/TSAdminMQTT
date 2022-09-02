@@ -1,6 +1,6 @@
 {
   "name": "tsadmin-mqtt",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "app.js",
   "scripts": {
     "ng": "ng",
@@ -35,6 +35,7 @@
     "axios": "^0.27.2",
     "bulk-write-stream": "^2.0.1",
     "delay": "^5.0.0",
+    "electron-dl": "^3.3.1",
     "electron-packager": "^16.0.0",
     "ip": "^1.1.8",
     "local-devices": "^3.2.0",
