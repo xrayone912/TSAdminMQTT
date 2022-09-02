@@ -3,14 +3,16 @@
 
 TSAdminMQTT is an application to control and manage SmartHome devices running with [Tasmota](https://github.com/arendst/Tasmota) 
 
-# Compiled version v1.0.5
+# Compiled version v1.0.6
 
-- [Windows V1.0.5](https://www.dropbox.com/s/wm0ah42vqf79rwf/TSAdminMQTT_v.1.0.5_Win.zip?dl=1)
-- [Linux V1.0.5](https://www.dropbox.com/s/5dccuh9buyuqf9r/TSAdminMQTT_v.1.0.5-linux.zip?dl=1)
-- [MacOS V1.0.5](https://www.dropbox.com/s/sch7zyyzya72bp1/TSAdminMQTT_v.1.0.5_MacOS.zip?dl=1)
+- [Windows V1.0.6](https://www.dropbox.com/s/vunp3cjq7urkeas/TSAdminMQTT_v.1.0.6-win32-x64.zip?dl=1)
+- [Linux V1.0.6](https://www.dropbox.com/s/ozlxftswwmr8w5r/TSAdminMQTT_v.1.0.6-linux-x64.zip?dl=1)
+- [MacOS V1.0.6](https://www.dropbox.com/s/ak546k1c8pkkm9b/TSAdminMQTT_v.1.0.6-darwin-x64.zip?dl=1)
 
 ## Features
 
+- Save and manage config backups
+- AutoScan for Tasmota Devices
 - Light/dark mode toggle
 - Display Wifi strength
 - Shows the version of the TS firmware of the device 
