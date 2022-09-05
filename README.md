@@ -40,7 +40,7 @@ TSAdminMQTT is an application to control and manage SmartHome devices running wi
 
 ## Screenshot
 
-![App Screenshot](https://i.postimg.cc/02qz0BZb/Screenshot-2022-08-24-094030.png)
+![App Screenshot]([https://i.postimg.cc/02qz0BZb/Screenshot-2022-08-24-094030.png](https://i.postimg.cc/Qdh0hMTd/Screenshot-2022-09-01-170623.png))
 
 ## Requirements
 
