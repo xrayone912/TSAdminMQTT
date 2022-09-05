@@ -3,14 +3,18 @@
 
 TSAdminMQTT is an application to control and manage SmartHome devices running with [Tasmota](https://github.com/arendst/Tasmota) 
 
+# Compiled version v1.0.7
+
+- [Windows V1.0.7](https://www.dropbox.com/s/smhlax9z5sqt3mw/TSAdminMQTT_v.1.0.7-win32-x64.zip?dl=1)
+- [Linux V1.0.7](https://www.dropbox.com/s/7fdug1pnz1yzu5r/TSAdminMQTT_v.1.0.7-linux-x64.zip?dl=1)
+
 # Compiled version v1.0.6
 
-- [Windows V1.0.6](https://www.dropbox.com/s/vunp3cjq7urkeas/TSAdminMQTT_v.1.0.6-win32-x64.zip?dl=1)
-- [Linux V1.0.6](https://www.dropbox.com/s/ozlxftswwmr8w5r/TSAdminMQTT_v.1.0.6-linux-x64.zip?dl=1)
 - [MacOS V1.0.6](https://www.dropbox.com/s/ak546k1c8pkkm9b/TSAdminMQTT_v.1.0.6-darwin-x64.zip?dl=1)
 
 ## Features
 
+- Auto Setup for MQTT Enable, set Host, Set Topic for all devices
 - Save and manage config backups
 - AutoScan for Tasmota Devices
 - Light/dark mode toggle
@@ -36,7 +40,10 @@ TSAdminMQTT is an application to control and manage SmartHome devices running wi
 
 ## Screenshot
 
-![App Screenshot](https://i.postimg.cc/02qz0BZb/Screenshot-2022-08-24-094030.png)
+![App Screenshot](https://i.postimg.cc/Qdh0hMTd/Screenshot-2022-09-01-170623.png)
+
+## Screenshot
+![App Screenshot](https://i.postimg.cc/JzQmztY6/Screenshot.png)
 
 ## Requirements
 
@@ -52,9 +59,17 @@ To run tests, run the following command
   npm run test
 ```
 
-## Start TSAdminMQTT development
+## Start TSAdminMQTT development Windows
 
-Run `npm start` for start TSAdminMQTT 
+Run `npm run windows` for start TSAdminMQTT 
+
+## Start TSAdminMQTT development linux
+
+Run `npm run linux` for start TSAdminMQTT
+
+## Start TSAdminMQTT development MacOS
+
+Run `npm run macOS` for start TSAdminMQTT
 
 ## Build Windows
 
