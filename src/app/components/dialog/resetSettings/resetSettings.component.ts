@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { IpcRenderer } from 'electron';
 import { ToastrService } from 'ngx-toastr';
-
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-resetSettings',
   templateUrl: './resetSettings.component.html',
@@ -37,7 +37,7 @@ export class ResetSettingsComponent implements OnInit {
   }
 
   showRestart() {
-    this.toastr.warning('Application restarts', '', {
+    this.toastr.warning(environment.toastrRestart, '', {
       closeButton: true,
       timeOut: 4000,
       progressBar: true

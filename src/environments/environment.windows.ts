@@ -1,7 +1,8 @@
 export const environment = {
   appVersion: require('../../package.json').version,
   production: true,
-  key: 'prod',
+  environmentName: 'window',
+  key: 'Windows',
   //mqtt http command enable
   mqttEnable: '/cm?cmnd=SetOption3 1',
   //mqtt http command enable
@@ -33,9 +34,9 @@ export const environment = {
   //backup donload suffix url
   suffixDL: '/dl',
   //path to windows backup folder
-  readPathBackupFolder: '',
-  //path to backup folder
-  deletePathBackupFolder: '',
+  readPathBackupFolder: '\\BackupConf',
+  //path to windows backup folder
+  deletePathBackupFolder: '\\BackupConf\\',
   //file extension backup
   fileExtension: '.dmp',
   //toastr closeButton
@@ -62,5 +63,5 @@ export const environment = {
   //toastr mqtt set host
   toastrMQTTsetHost: 'MQTT host will be set',
   //toastr mqtt set topic
-  toastrMQTTsetTopic: 'MQTT topic will be set'
+  toastrMQTTsetTopic: 'MQTT topic will be set',
 };

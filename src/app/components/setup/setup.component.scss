@@ -185,6 +185,7 @@
   min-width: 250px !important;
   max-width: 500px !important;
   margin-top: 50px;
+  text-align: justify;
 }
 
 .inputField {
@@ -202,6 +203,14 @@
 .stroked-button-green {
   border-color: chartreuse;
   margin-left: 25px;
+}
+
+.button-green {
+  border-color: chartreuse;
+}
+
+.button-disabled {
+  border-color: #464646;
 }
 
 .stroked-button-grey {

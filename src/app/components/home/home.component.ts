@@ -108,12 +108,12 @@ export class HomeComponent implements OnInit {
           var json = JSON.parse(message.payload.toString());
 
           try {
-            if (json['StatusFWR'].Version !== undefined) {
+            if (json[environment.StatusFWR].Version !== undefined) {
               this.deviceStorage.Devices = this.deviceStorage.Devices.map((x) =>
                 x.ip === r[0]
                   ? {
                       ...x,
-                      sw: json['StatusFWR'].Version.replace(
+                      sw: json[environment.StatusFWR].Version.replace(
                         / *\([^)]*\) */g,
                         ''
                       )
@@ -124,19 +124,27 @@ export class HomeComponent implements OnInit {
           } catch (error) {}
 
           try {
-            if (json['Status'].Power !== undefined) {
+            if (json[environment.Status].Power !== undefined) {
               this.deviceStorage.Devices = this.deviceStorage.Devices.map((x) =>
-                x.ip === r[0] ? { ...x, Power: json['Status'].Power } : x
+                x.ip === r[0]
+                  ? { ...x, Power: json[environment.Status].Power }
+                  : x
               );
             }
           } catch (error) {}
         }
 
         try {
-          if (json['StatusSTS']['Wifi'].RSSI !== undefined) {
+          if (
+            json[environment.StatusSTS][environment.WIFI].RSSI !== undefined
+          ) {
             this.deviceStorage.Devices = this.deviceStorage.Devices.map((x) =>
               x.ip === r[0]
-                ? { ...x, wifiSingnal: json['StatusSTS']['Wifi'].RSSI }
+                ? {
+                    ...x,
+                    wifiSingnal:
+                      json[environment.StatusSTS][environment.WIFI].RSSI
+                  }
                 : x
             );
           }
@@ -170,10 +178,14 @@ export class HomeComponent implements OnInit {
     this.dbService.getAll('adpater').subscribe((adapter: any[]) => {
       adapter.forEach((element) => {
         this._mqttService
-          .publish('cmnd/' + element.ip + '/STATUS', '0', {
-            qos: 1,
-            retain: true
-          })
+          .publish(
+            environment.cmnd + element.ip + environment.cmndstatus,
+            environment.cmndFlagZero,
+            {
+              qos: 1,
+              retain: true
+            }
+          )
           .subscribe((message: any) => {});
       });
     });
@@ -209,16 +221,12 @@ export class HomeComponent implements OnInit {
         error: (error) => {
           if (error.status === 401) {
             this.errorCode = error.status;
-            this.toastr.error(
-              'Unauthorized access 401 </br> No or wrong credentials </br> for this adapter',
-              '',
-              {
-                closeButton: true,
-                timeOut: 4000,
-                progressBar: true,
-                enableHtml: true
-              }
-            );
+            this.toastr.error(environment.toastr401, '', {
+              closeButton: true,
+              timeOut: 4000,
+              progressBar: true,
+              enableHtml: true
+            });
           } else {
             this.errorCode = error.status;
           }
@@ -235,17 +243,25 @@ export class HomeComponent implements OnInit {
   DevicePowerOn(ip: string, power: number): void {
     if (power === 0) {
       this._mqttService
-        .publish('cmnd/' + ip + '/POWER', '1', {
-          qos: 1,
-          retain: true
-        })
+        .publish(
+          environment.cmnd + ip + environment.cmndPower,
+          environment.cmndFlagOne,
+          {
+            qos: 1,
+            retain: true
+          }
+        )
         .subscribe((message: any) => {});
     } else {
       this._mqttService
-        .publish('cmnd/' + ip + '/POWER', '0', {
-          qos: 1,
-          retain: true
-        })
+        .publish(
+          environment.cmnd + ip + environment.cmndPower,
+          environment.cmndFlagZero,
+          {
+            qos: 1,
+            retain: true
+          }
+        )
         .subscribe((message: any) => {});
     }
   }
@@ -261,7 +277,7 @@ export class HomeComponent implements OnInit {
   }
 
   deleteBackupFile(fileName: string, ip: string) {
-    this.ipc?.send('deleteFile', fileName);
+    this.ipc?.send('deleteFile', fileName, environment.deletePathBackupFolder);
     this.ipc?.on('deleted', (event) => {
       this.readBackupFolder(ip);
       this.fileDeleted();
@@ -270,7 +286,7 @@ export class HomeComponent implements OnInit {
 
   readBackupFolder(ip: string) {
     this.backupFiles = [];
-    this.ipc?.send('readFiles');
+    this.ipc?.send('readFiles', environment.readPathBackupFolder);
     this.ipc?.on('files', (event, files: string[]) => {
       this.backupFiles = [];
       files.forEach((element) => {
@@ -282,14 +298,15 @@ export class HomeComponent implements OnInit {
   }
 
   backup(ip: string) {
-    const baseUrl = 'http://';
-    const newURL = baseUrl + ip + '/dl';
+    const newURL = environment.httpBaseUrl + ip + environment.suffixDL;
     this.ipc?.send(
       'download-button',
       {
         url: newURL
       },
-      ip
+      ip,
+      environment.readPathBackupFolder,
+      environment.fileExtension
     );
     this.ipc?.on('download-success', (event, arg, base) => {
       this.showBackupSuccess(base);
@@ -321,22 +338,22 @@ export class HomeComponent implements OnInit {
 
   showBackupSuccess(basePath: string) {
     this.toastr.success(
-      'Backup successfully saved </br> to path ' + basePath + '\\BackupConf',
+      environment.toastrSuccessDL + basePath + environment.readPathBackupFolder,
       '',
       {
-        closeButton: true,
-        timeOut: 4000,
-        progressBar: true,
+        closeButton: environment.toastrcloseButton,
+        timeOut: environment.toastrTimeOut,
+        progressBar: environment.toastrProgressBar,
         enableHtml: true
       }
     );
   }
 
   fileDeleted() {
-    this.toastr.success('File successfully deleted', '', {
-      closeButton: true,
-      timeOut: 4000,
-      progressBar: true,
+    this.toastr.success(environment.toastrDeleteDL, '', {
+      closeButton: environment.toastrcloseButton,
+      timeOut: environment.toastrTimeOut,
+      progressBar: environment.toastrProgressBar,
       enableHtml: true
     });
   }

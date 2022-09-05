@@ -7,6 +7,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ToastrService } from 'ngx-toastr';
 import { IpcRenderer } from 'electron';
 import { HttpService } from 'src/app/services/http.service';
+import { environment } from '../../../environments/environment';
 
 declare const findAllDevices: any;
 
@@ -24,6 +25,9 @@ export class SetupComponent implements OnInit {
   hide = true;
   hideSpinner!: boolean;
   scan!: boolean;
+  localIp = '';
+  disableMqttHostButton = true;
+  disableMqttTopicButton = true;
   public ipc: IpcRenderer | undefined;
 
   constructor(
@@ -64,6 +68,8 @@ export class SetupComponent implements OnInit {
         this.getRoomsFromIndexedDB();
       }
     }, 1000);
+
+    this.getLocalIp();
   }
 
   async getAllTsAdapter() {
@@ -87,11 +93,11 @@ export class SetupComponent implements OnInit {
     let password = this.deviceStorage.Devices[index].password;
     this.httpService.updateCredentials(ip, username, password).subscribe({
       next: (data: any) => {
-        data['Status'].ip = ip;
-        data['Status'].userName = username;
-        data['Status'].password = password;
-        data['Status'].setCredentials = true;
-        this.deviceStorage.Devices.splice(index, 1, data['Status']);
+        data[environment.Status].ip = ip;
+        data[environment.Status].userName = username;
+        data[environment.Status].password = password;
+        data[environment.Status].setCredentials = true;
+        this.deviceStorage.Devices.splice(index, 1, data[environment.Status]);
         this.showUpdate();
       }
     });
@@ -196,6 +202,69 @@ export class SetupComponent implements OnInit {
     });
   }
 
+  enableMqttforAllDevices() {
+    this.deviceStorage.Devices.forEach((device) => {
+      if (device.userName !== undefined) {
+        this.httpService
+          .login(device.ip, device.userName, device.password)
+          .subscribe((result) => {});
+      }
+      setTimeout(() => {
+      this.httpService.setMqttEnable(device.ip).subscribe((result) => {});
+      }, 2000);
+    });
+    this.showMqttEnabled();
+  }
+
+  disableMqttforAllDevices() {
+    this.deviceStorage.Devices.forEach((device) => {
+      if (device.userName !== undefined) {
+        this.httpService
+          .login(device.ip, device.userName, device.password)
+          .subscribe((result) => {            
+          });
+      }
+      setTimeout(() => {
+         this.httpService.setMqttDisabled(device.ip).subscribe((result) => {});
+      }, 2000);
+    });
+  }
+
+  setMqttHost(){
+    this.deviceStorage.Devices.forEach((device) => {
+      if (device.userName !== undefined) {
+        this.httpService
+          .login(device.ip, device.userName, device.password)
+          .subscribe((result) => {            
+          });
+      }
+      setTimeout(() => {
+         this.httpService.setMqttHost(device.ip, this.localIp).subscribe((result) => {});
+      }, 2000);
+    });
+    this.disableMqttTopicButton = false;
+  }
+
+  setMqttTopic(){
+    this.deviceStorage.Devices.forEach((device) => {
+      if (device.userName !== undefined) {
+        this.httpService
+          .login(device.ip, device.userName, device.password)
+          .subscribe((result) => {            
+          });
+      }
+      setTimeout(() => {
+         this.httpService.setMqttTopic(device.ip, device.ip).subscribe((result) => {});
+      }, 2000);
+    });
+  }
+
+  getLocalIp() {
+    (async () => {
+      this.localIp = await this.ipc?.invoke('getIp');
+    })();
+  }
+
   deleteRoom(id: number) {
     this.roomsArray.Rooms = this.roomsArray.Rooms.filter(
       (item) => item.id !== id
@@ -204,24 +273,56 @@ export class SetupComponent implements OnInit {
   }
 
   showSuccess() {
-    this.toastr.success('Successfully saved', '', {
+    this.toastr.success(environment.toastrSaved, '', {
       closeButton: true,
-      timeOut: 4000,
-      progressBar: true
+      timeOut: environment.toastrTimeOut,
+      progressBar: environment.toastrProgressBar
     });
   }
   showRestart() {
-    this.toastr.warning('Application restarts', '', {
-      closeButton: true,
-      timeOut: 4000,
-      progressBar: true
+    this.toastr.warning(environment.toastrRestart, '', {
+      closeButton: environment.toastrcloseButton,
+      timeOut: environment.toastrTimeOut,
+      progressBar: environment.toastrProgressBar
     });
   }
   showUpdate() {
-    this.toastr.success('Adapter successfully updated', '', {
-      closeButton: true,
-      timeOut: 4000,
-      progressBar: true
+    this.toastr.success(environment.toastrDeviceUpdate, '', {
+      closeButton: environment.toastrcloseButton,
+      timeOut: environment.toastrTimeOut,
+      progressBar: environment.toastrProgressBar
     });
+  }
+
+  showMqttEnabled() {
+    this.toastr.success(environment.toastrMQTTenabled, '', {
+      closeButton: environment.toastrcloseButton,
+      timeOut: environment.toastrTimeOut,
+      progressBar: environment.toastrProgressBar
+    });
+    setTimeout(() => {
+      this.disableMqttHostButton = false;
+    }, 3000);
+    
+  }
+
+  showMqttHostSet() {
+    this.toastr.success(environment.toastrMQTTsetHost, '', {
+      closeButton: environment.toastrcloseButton,
+      timeOut: environment.toastrTimeOut,
+      progressBar: environment.toastrProgressBar
+    });
+    setTimeout(() => {
+      this.disableMqttTopicButton = false;
+    }, 3000);
+    
+  }
+  
+  showMqttTopicSet() {
+    this.toastr.success(environment.toastrMQTTsetTopic, '', {
+      closeButton: environment.toastrcloseButton,
+      timeOut: environment.toastrTimeOut,
+      progressBar: environment.toastrProgressBar
+    });  
   }
 }

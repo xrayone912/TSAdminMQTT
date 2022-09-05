@@ -55,6 +55,30 @@
               ],
               "outputHashing": "all"
             },
+             "windows": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.windows.ts"
+                }
+              ]
+            },
+            "linux": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.linux.ts"
+                }
+              ]
+            }, 
+            "macOS": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.macOS.ts"
+                }
+              ]
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
@@ -74,6 +98,15 @@
             },
             "development": {
               "browserTarget": "TSAdminMQTT:build:development"
+            },
+            "windows": {
+              "browserTarget": "TSAdminMQTT:build:windows"
+            },
+            "linux": {
+              "browserTarget": "TSAdminMQTT:build:linux"
+            },
+            "macOS": {
+              "browserTarget": "TSAdminMQTT:build:macOS"
             }
           },
           "defaultConfiguration": "development"

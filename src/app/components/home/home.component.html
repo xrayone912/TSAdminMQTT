@@ -124,7 +124,7 @@
                   [disabled]="device.sw === undefined"
                   (click)="readBackupFolder(device.ip)"
                 >
-                  <mat-option>Available Backups for {{ device.ip }}</mat-option>
+                  <mat-option>Available backups for {{ device.ip }}</mat-option>
                   <mat-option
                     disabled
                     *ngFor="let file of backupFiles"

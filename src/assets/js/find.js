@@ -21,7 +21,6 @@ function findAllDevices() {
           }
         })
         .catch(function (error) {
-          console.log(error);
           if (error.response.status === 401) {
             var info = "IP: " + element + " Adapter with access data found Please enter user name and password in the next step then the adapter name will be updated"
             adapter.push({FriendlyName: [info], ip: element})

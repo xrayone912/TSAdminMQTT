@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { TutorialComponent } from './components/dialog/tutorial/tutorial.component';
+import { environment } from '../environments/environment';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,6 +14,7 @@ export class AppComponent implements OnInit {
     private dbService: NgxIndexedDBService,
   ) {}
   ngOnInit(): void {
+    console.log(environment.key);
     this.checkShowTutorial();
   }
 
