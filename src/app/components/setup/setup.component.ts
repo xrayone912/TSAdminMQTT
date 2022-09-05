@@ -242,7 +242,7 @@ export class SetupComponent implements OnInit {
          this.httpService.setMqttHost(device.ip, this.localIp).subscribe((result) => {});
       }, 2000);
     });
-    this.disableMqttTopicButton = false;
+    this.showMqttHostSet();
   }
 
   setMqttTopic(){
@@ -257,6 +257,7 @@ export class SetupComponent implements OnInit {
          this.httpService.setMqttTopic(device.ip, device.ip).subscribe((result) => {});
       }, 2000);
     });
+    this.showMqttTopicSet();
   }
 
   getLocalIp() {
