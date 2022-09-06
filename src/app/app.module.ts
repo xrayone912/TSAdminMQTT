@@ -31,7 +31,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { DeviceStorage, global } from './models/devices';
+import { DeviceStorage, global, MqttInfo } from './models/devices';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DBConfig, NgxIndexedDBModule } from 'ngx-indexed-db';
 import { Room_Array } from './models/rooms';
@@ -182,7 +182,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
     NgxIndexedDBModule.forRoot(dbConfig)
   ],
-  providers: [DeviceStorage, Room_Array, global],
+  providers: [DeviceStorage, Room_Array, global, MqttInfo],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

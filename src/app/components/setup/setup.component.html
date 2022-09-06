@@ -196,9 +196,45 @@
           <p style="color: rgb(255, 86, 86)">
             Attention, all existing settings for MQTT Host and MQTT Topic will
             be overwritten on all devices. If you want to edit the settings
-            manually please click skip and open the Tasmota settings and make
-            settings there!
+            manually, please click Skip and open the Tasmota settings and make
+            settings there see tutorial!
           </p>
+          <br />
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="deviceId">
+              <th mat-header-cell *matHeaderCellDef>Device IP</th>
+              <td mat-cell *matCellDef="let element">{{ element.deviceId }}</td>
+            </ng-container>
+            <ng-container matColumnDef="mqttState">
+              <th mat-header-cell *matHeaderCellDef>MQTT Active</th>
+              <td mat-cell *matCellDef="let element">
+                <mat-icon
+                  [ngClass]="{
+                    true: element.mqttState === true,
+                    false: element.mqttState === false
+                  }"
+                  >lens_blur</mat-icon
+                >
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="mqttPort">
+              <th mat-header-cell *matHeaderCellDef>Port</th>
+              <td mat-cell *matCellDef="let element">{{ element.mqttPort }}</td>
+            </ng-container>
+            <ng-container matColumnDef="mqttHost">
+              <th mat-header-cell *matHeaderCellDef>Host</th>
+              <td mat-cell *matCellDef="let element">{{ element.mqttHost }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Topic">
+              <th mat-header-cell *matHeaderCellDef>Topic</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.mqttTopic }}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
         </mat-card-content>
         <mat-card-actions>
           <button
@@ -208,7 +244,7 @@
           >
             Enable MQTT
           </button>
-          <!--  <button mat-stroked-button (click)="disableMqttforAllDevices()">
+          <!-- <button mat-stroked-button (click)="disableMqttforAllDevices()">
             Diasbe MQTT
           </button> -->
           <button

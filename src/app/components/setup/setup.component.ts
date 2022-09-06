@@ -8,26 +8,36 @@ import { ToastrService } from 'ngx-toastr';
 import { IpcRenderer } from 'electron';
 import { HttpService } from 'src/app/services/http.service';
 import { environment } from '../../../environments/environment';
+import { MqttInfo, MqttStatus } from '../../models/devices';
+import { MatTableDataSource } from '@angular/material/table';
 
 declare const findAllDevices: any;
-
 @Component({
   selector: 'app-setup',
   templateUrl: './setup.component.html',
   styleUrls: ['./setup.component.scss']
 })
 export class SetupComponent implements OnInit {
-  returnMsg!: string;
-  firstFormGroup!: FormGroup;
-  secondFormGroup!: FormGroup;
-  thirdFormGroup!: FormGroup;
-  roomName = '';
-  hide = true;
-  hideSpinner!: boolean;
-  scan!: boolean;
-  localIp = '';
-  disableMqttHostButton = true;
-  disableMqttTopicButton = true;
+ public dataSource = new MatTableDataSource<MqttStatus>([]);
+ public returnMsg!: string;
+ public firstFormGroup!: FormGroup;
+ public secondFormGroup!: FormGroup;
+ public thirdFormGroup!: FormGroup;
+ public roomName = '';
+ public hide = true;
+ public hideSpinner!: boolean;
+ public scan!: boolean;
+ public localIp = '';
+ public disableMqttHostButton = true;
+ public disableMqttTopicButton = true;
+ public displayedColumns: any[] = [
+    'deviceId',
+    'mqttState',
+    'mqttPort',
+    'mqttHost',
+    'Topic'
+  ];
+
   public ipc: IpcRenderer | undefined;
 
   constructor(
@@ -36,7 +46,8 @@ export class SetupComponent implements OnInit {
     private _formBuilder: FormBuilder,
     public roomsArray: Room_Array,
     private toastr: ToastrService,
-    public httpService: HttpService
+    public httpService: HttpService,
+    public mqttStatus: MqttInfo
   ) {
     if ((<any>window).require) {
       try {
@@ -70,6 +81,7 @@ export class SetupComponent implements OnInit {
     }, 1000);
 
     this.getLocalIp();
+    this.getMqttStatus();
   }
 
   async getAllTsAdapter() {
@@ -210,10 +222,11 @@ export class SetupComponent implements OnInit {
           .subscribe((result) => {});
       }
       setTimeout(() => {
-      this.httpService.setMqttEnable(device.ip).subscribe((result) => {});
+        this.httpService.setMqttEnable(device.ip).subscribe((result) => {});
       }, 2000);
     });
     this.showMqttEnabled();
+    this.getMqttStatus();
   }
 
   disableMqttforAllDevices() {
@@ -221,49 +234,98 @@ export class SetupComponent implements OnInit {
       if (device.userName !== undefined) {
         this.httpService
           .login(device.ip, device.userName, device.password)
-          .subscribe((result) => {            
-          });
+          .subscribe((result) => {});
       }
       setTimeout(() => {
-         this.httpService.setMqttDisabled(device.ip).subscribe((result) => {});
+        this.httpService.setMqttDisabled(device.ip).subscribe((result) => {});
       }, 2000);
     });
+    this.getMqttStatus();
   }
 
-  setMqttHost(){
+  setMqttHost() {
     this.deviceStorage.Devices.forEach((device) => {
       if (device.userName !== undefined) {
         this.httpService
           .login(device.ip, device.userName, device.password)
-          .subscribe((result) => {            
-          });
+          .subscribe((result) => {});
       }
       setTimeout(() => {
-         this.httpService.setMqttHost(device.ip, this.localIp).subscribe((result) => {});
+        this.httpService
+          .setMqttHost(device.ip, this.localIp)
+          .subscribe((result) => {});
       }, 2000);
     });
     this.showMqttHostSet();
+    this.getMqttStatus();
   }
 
-  setMqttTopic(){
+  setMqttTopic() {
     this.deviceStorage.Devices.forEach((device) => {
       if (device.userName !== undefined) {
         this.httpService
           .login(device.ip, device.userName, device.password)
-          .subscribe((result) => {            
-          });
+          .subscribe((result) => {});
       }
       setTimeout(() => {
-         this.httpService.setMqttTopic(device.ip, device.ip).subscribe((result) => {});
+        this.httpService
+          .setMqttTopic(device.ip, device.ip)
+          .subscribe((result) => {});
       }, 2000);
     });
     this.showMqttTopicSet();
+    this.getMqttStatus();
   }
 
   getLocalIp() {
     (async () => {
       this.localIp = await this.ipc?.invoke('getIp');
     })();
+  }
+
+  getMqttStatus() {
+    this.dataSource.data = [];
+    this.mqttStatus.mqttInfo = [];
+
+    this.dbService.getAll('adpater').subscribe((adapter: any[]) => {
+      adapter.forEach((device) => {
+        try {
+          if (device.userName !== undefined) {
+            this.httpService
+              .login(device.ip, device.userName, device.password)
+              .subscribe((result) => {});
+          }
+          setTimeout(() => {
+            this.httpService.getMQTTStatus(device.ip).subscribe((result) => {
+              if (
+                result[environment.Status].Topic !== undefined &&
+                result[environment.StatusMQT] !== undefined
+              ) {
+                let info = {
+                  deviceId: result[environment.StatusNET].IPAddress,
+                  mqttHost: result[environment.StatusMQT].MqttHost,
+                  mqttPort: result[environment.StatusMQT].MqttPort,
+                  mqttTopic: result[environment.Status].Topic,
+                  mqttState: true
+                };
+                this.mqttStatus.mqttInfo.push(info);
+                this.dataSource.data = this.mqttStatus.mqttInfo;
+              } else {
+                let info = {
+                  deviceId: result[environment.StatusNET].IPAddress,
+                  mqttHost: environment.notAvailableFlag,
+                  mqttPort: environment.notAvailableFlag,
+                  mqttTopic: environment.notAvailableFlag,
+                  mqttState: false
+                };
+                this.mqttStatus.mqttInfo.push(info);
+                this.dataSource.data = this.mqttStatus.mqttInfo;
+              }
+            });
+          }, 2000);
+        } catch (error) {}
+      });
+    });
   }
 
   deleteRoom(id: number) {
@@ -304,7 +366,6 @@ export class SetupComponent implements OnInit {
     setTimeout(() => {
       this.disableMqttHostButton = false;
     }, 3000);
-    
   }
 
   showMqttHostSet() {
@@ -316,14 +377,13 @@ export class SetupComponent implements OnInit {
     setTimeout(() => {
       this.disableMqttTopicButton = false;
     }, 3000);
-    
   }
-  
+
   showMqttTopicSet() {
     this.toastr.success(environment.toastrMQTTsetTopic, '', {
       closeButton: environment.toastrcloseButton,
       timeOut: environment.toastrTimeOut,
       progressBar: environment.toastrProgressBar
-    });  
+    });
   }
 }

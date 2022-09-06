@@ -150,7 +150,7 @@
       <mat-card-header style="text-align: center">
         <mat-card-title
           >TSAdminMQTT &nbsp; {{ 'v' + this.appVersion
-          }}<mat-slide-toggle
+          }}&nbsp; | &nbsp; MQTT Broker IP: {{localIp}} &nbsp; | &nbsp; Port: 1883<mat-slide-toggle
             [(ngModel)]="this.global.darkMode"
             (click)="this.saveGlobal()"
             [formControl]="darkTheme"

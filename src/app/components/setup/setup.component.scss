@@ -216,3 +216,47 @@
 .stroked-button-grey {
   border-color: rgb(117, 117, 117);
 }
+
+.true {
+  color: greenyellow;
+  padding-left: 1px;
+}
+
+.false {
+  color: #ff7777;
+  padding-left: 1px;
+}
+
+::ng-deep .mat-tab-label {
+  color: var(--text-color) !important
+}
+
+::ng-deep .mat-table {
+  width: 100% !important;
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+}
+
+::ng-deep .mat-header-cell {
+  color: var(--text-color)!important;
+  font-weight: bold !important;
+}
+
+::ng-deep .mat-cell{
+  color: var(--text-color) !important
+}
+
+::ng-deep th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+  padding-right: 0px !important;
+}
+
+::ng-deep th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+  padding-left: 15px !important;
+}
+
+::ng-deep th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+  padding: 0 !important;
+  border-bottom-width: 1px !important;
+  border-bottom-style: solid !important;
+  padding: 5px !important;
+}

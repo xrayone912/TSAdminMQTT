@@ -11,12 +11,18 @@ export const environment = {
   setMqttHost: '/cm?cmnd=MqttHost ',
   //mqtt http command set mqtt topic
   setMqttTopic: '/cm?cmnd=Topic ',
+  //mqtt http command get mqtt status
+  getMqttStatus: '/cm?cmnd=Status 0',
   //tasmota STATUS string get TS Version
   StatusFWR: 'StatusFWR',
   //device get Power state 1 or 0 from cmnd/xxx.xxx.xxx.xxx/Status
   Status: 'Status',
   //get fro cmnd/xxx.xxx.xxx.xxx/Status 0 WIFI informations
   StatusSTS: 'StatusSTS',
+  //get mqtt info
+  StatusMQT: 'StatusMQT',
+  //get device ip over http before mqtt is enabled
+  StatusNET: 'StatusNET',
   //switch into WIFI for get wifi signal strength
   WIFI: 'Wifi',
   //mqtt base command
@@ -39,6 +45,8 @@ export const environment = {
   deletePathBackupFolder: '\\BackupConf\\',
   //file extension backup
   fileExtension: '.dmp',
+  //not available string (N/A)
+  notAvailableFlag: 'N/A',
   //toastr closeButton
   toastrcloseButton: true,
   //toastr timeout in ms

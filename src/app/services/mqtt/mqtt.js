@@ -28,25 +28,4 @@ aedes.on('clientError', function (client, err) {
 aedes.on('connectionError', function (client, err) {
   console.log('client error', client, err.message, err.stack)
 })
-
-aedes.on('publish', function (packet, client) {
-  if (client) {
-    //console.log('message from client', client.id)
-    var stringBuf = packet.payload.toString('utf-8');
-       //console.log(stringBuf);
-       //aedes.publish(packet)
-  }
-})
-
-
-
-aedes.on('subscribe', function (subscriptions, client) {
-  if (client) {
-    //console.log('subscribe from client', subscriptions, client.id)
-  }
-})
-
-aedes.on('client', function (client) {
-  //console.log('new client', client.id)
-})
 }

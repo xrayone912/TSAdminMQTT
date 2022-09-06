@@ -25,11 +25,12 @@ export class HomeComponent implements OnInit {
   private subscription!: Subscription;
   public message!: string;
   public package!: any;
-  darkTheme = new FormControl(true);
+  public darkTheme = new FormControl(true);
   public ipc: IpcRenderer | undefined;
   private errorCode!: number;
   public appVersion = environment.appVersion;
   public backupFiles: string[] = [];
+  public localIp = '';
 
   constructor(
     public deviceStorage: DeviceStorage,
@@ -76,6 +77,8 @@ export class HomeComponent implements OnInit {
         this.global.darkMode = true;
       }
     });
+
+    this.getLocalIp();
 
     this._mqttService.connect();
 
@@ -311,6 +314,12 @@ export class HomeComponent implements OnInit {
     this.ipc?.on('download-success', (event, arg, base) => {
       this.showBackupSuccess(base);
     });
+  }
+
+  getLocalIp() {
+    (async () => {
+      this.localIp = await this.ipc?.invoke('getIp');
+    })();
   }
 
   saveGlobal() {

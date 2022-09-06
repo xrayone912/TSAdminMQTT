@@ -67,3 +67,15 @@ export class global {
   darkMode = true;
   isTutorial!: boolean;
 }
+
+export interface MqttStatus{
+  deviceId: string;
+  mqttHost: string;
+  mqttPort: string;
+  mqttTopic: string;
+  mqttState: boolean;
+}
+
+export class MqttInfo {
+  mqttInfo: MqttStatus[] = [];
+}
