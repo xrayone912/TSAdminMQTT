@@ -56,4 +56,10 @@ export class HttpService {
       environment.httpBaseUrl + ip + environment.getMqttStatus
     );
   }
+
+  checkTsFwUpdate(){
+    return this.http.get<any>(
+      environment.tsFwUrl
+    );
+  }
 }

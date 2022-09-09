@@ -3,6 +3,8 @@ export const environment = {
   production: true,
   environmentName: 'linux',
   key: 'linux',
+  //check for newer ts version
+  tsFwUrl: 'https://api.github.com/repos/arendst/Sonoff-Tasmota/releases/latest',
   //mqtt http command enable
   mqttEnable: '/cm?cmnd=SetOption3 1',
   //mqtt http command enable
@@ -50,7 +52,7 @@ export const environment = {
   //toastr closeButton
   toastrcloseButton: true,
   //toastr timeout in ms
-  toastrTimeOut: 4000,
+  toastrTimeOut: 5000,
   //toastr show progressbar
   toastrProgressBar: true,
   //toastr 401 warning message

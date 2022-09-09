@@ -31,6 +31,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { DeviceStorage, global, MqttInfo } from './models/devices';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DBConfig, NgxIndexedDBModule } from 'ngx-indexed-db';
@@ -38,10 +40,12 @@ import { Room_Array } from './models/rooms';
 import { HttpClientModule } from '@angular/common/http';
 import { SettingsComponent } from './components/settings/settings.component';
 import { IMqttServiceOptions, MqttModule } from 'ngx-mqtt';
-import { MatExpansionModule } from '@angular/material/expansion';
+
 import { ToastrModule } from 'ngx-toastr';
 import { TutorialComponent } from './components/dialog/tutorial/tutorial.component';
 import { ResetSettingsComponent } from './components/dialog/resetSettings/resetSettings.component';
+import { WarningComponent } from "./components/dialog/warning/warning.component";
+import { Warning2Component } from "./components/dialog/warning2/warning2.component";
 
 const dbConfig: DBConfig = {
   name: 'SHAdmin.DB',
@@ -60,6 +64,14 @@ const dbConfig: DBConfig = {
       storeConfig: { keyPath: 'id', autoIncrement: true },
       storeSchema: [
         { name: 'darkmode', keypath: 'darkmode', options: { unique: false } },
+        { name: 'value', keypath: 'value', options: { unique: false } }
+      ]
+    },
+    {
+      store: 'fwinfo',
+      storeConfig: { keyPath: 'id', autoIncrement: true },
+      storeSchema: [
+        { name: 'fwinfo', keypath: 'fwinfo', options: { unique: false } },
         { name: 'value', keypath: 'value', options: { unique: false } }
       ]
     },
@@ -146,7 +158,9 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     SetupComponent,
     SettingsComponent,
     TutorialComponent,
-    ResetSettingsComponent
+    ResetSettingsComponent,
+    WarningComponent,
+    Warning2Component
   ],
   imports: [
     FlexLayoutModule,
@@ -177,8 +191,9 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     MatExpansionModule,
     MatProgressBarModule,
     MatTooltipModule,
+    MatChipsModule,
     HttpClientModule,
-    ToastrModule.forRoot({preventDuplicates: true}),
+    ToastrModule.forRoot({ preventDuplicates: true }),
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
     NgxIndexedDBModule.forRoot(dbConfig)
   ],

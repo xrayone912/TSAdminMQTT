@@ -51,7 +51,7 @@
 }
 
 .content {
-  padding: 16px;
+  padding: 40px;
 }
 
 .content > mat-card {
@@ -67,6 +67,7 @@
   background-color: var(--background-color-card);
   color: var(--text-color) !important;
   min-width: 350px !important;
+  margin: 15px !important;
 }
 
 .buttonSpace {
@@ -104,6 +105,7 @@
   margin-top: 10px;
   margin-left: 15px;
   width: 180px;
+  max-height: 50px;
   color: var(--text-color) !important;
 }
 
@@ -173,4 +175,37 @@
 
 ::ng-deep .mat-progress-bar {
   border-radius: 2px;
+}
+
+::ng-deep .mat-chip-list-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  margin: -1px !important;
+  position: absolute !important;
+  z-index: 2000 !important;
+  margin: -17px !important;
+  right: 70px !important;
+}
+
+::ng-deep .mat-chip.mat-standard-chip {
+  background-color: #668fc338 !important;
+  color: var(--text-color) !important;
+  margin: -1px !important;
+}
+
+::ng-deep .mat-expansion-indicator::after {
+  color: var(--text-color) !important;
+}
+
+::ng-deep .mat-slide-toggle-bar {
+  background-color: #bbbbbb61;
+}
+
+.cancel-dark {
+  color: var(--text-color) !important;
+}
+.cancel-light {
+  color: var(--text-color) !important;
 }

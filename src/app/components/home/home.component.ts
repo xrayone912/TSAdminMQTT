@@ -26,11 +26,15 @@ export class HomeComponent implements OnInit {
   public message!: string;
   public package!: any;
   public darkTheme = new FormControl(true);
+  public fwInfo = new FormControl(true);
   public ipc: IpcRenderer | undefined;
   private errorCode!: number;
   public appVersion = environment.appVersion;
   public backupFiles: string[] = [];
   public localIp = '';
+  public infoFw!: string;
+  public fwInfoToggle = true;
+  public panelOpenState = false;
 
   constructor(
     public deviceStorage: DeviceStorage,
@@ -78,6 +82,14 @@ export class HomeComponent implements OnInit {
       }
     });
 
+    this.dbService.getByKey('fwinfo', 1).subscribe((fwinfo: any) => {
+      if (fwinfo !== undefined) {
+        this.fwInfoToggle = fwinfo.fwinfo;
+      } else {
+        this.fwInfoToggle = true;
+      }
+    });
+
     this.getLocalIp();
 
     this._mqttService.connect();
@@ -85,6 +97,8 @@ export class HomeComponent implements OnInit {
     this.watchMqttStates();
 
     this.getDeviceStatus();
+
+    this.checkTsFwUpdate();
   }
 
   watchMqttStates() {
@@ -123,6 +137,31 @@ export class HomeComponent implements OnInit {
                     }
                   : x
               );
+              var test = this.deviceStorage.Devices.filter(
+                (x) => x.ip === r[0]
+              );
+
+              if (test[0].sw.localeCompare(this.infoFw)) {
+                this.deviceStorage.Devices = this.deviceStorage.Devices.map(
+                  (x) =>
+                    x.ip === r[0]
+                      ? {
+                          ...x,
+                          isFwUpdate: true
+                        }
+                      : x
+                );
+              } else {
+                this.deviceStorage.Devices = this.deviceStorage.Devices.map(
+                  (x) =>
+                    x.ip === r[0]
+                      ? {
+                          ...x,
+                          isFwUpdate: false
+                        }
+                      : x
+                );
+              }
             }
           } catch (error) {}
 
@@ -326,7 +365,6 @@ export class HomeComponent implements OnInit {
     const data = {
       darkMode: !this.darkTheme.value
     };
-
     this.dbService.getByKey('darkmode', 1).subscribe((darkMode) => {
       if (darkMode !== null) {
         this.dbService
@@ -343,6 +381,45 @@ export class HomeComponent implements OnInit {
           .subscribe((storeData) => {});
       }
     });
+  }
+
+  setShowFwUpdateInfo() {
+    const data = {
+      fwinfo: !this.fwInfoToggle
+    };
+    this.dbService.getByKey('fwinfo', 1).subscribe((fwinfo) => {
+      if (fwinfo !== null) {
+        this.dbService
+          .update('fwinfo', {
+            id: 1,
+            fwinfo: data.fwinfo
+          })
+          .subscribe((storeData) => {});
+      } else {
+        this.dbService
+          .add('fwinfo', {
+            fwinfo: !data.fwinfo
+          })
+          .subscribe((storeData) => {});
+      }
+    });
+  }
+
+  checkTsFwUpdate() {
+    this.httpService.checkTsFwUpdate().subscribe((result) => {
+      this.infoFw = result.name.replace(/[^\d.-]/g, '');
+    });
+  }
+
+  disableFwInfo(ip: string) {
+    this.deviceStorage.Devices = this.deviceStorage.Devices.map((x) =>
+      x.ip === ip
+        ? {
+            ...x,
+            isFwUpdate: false
+          }
+        : x
+    );
   }
 
   showBackupSuccess(basePath: string) {

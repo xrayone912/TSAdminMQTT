@@ -1,0 +1,49 @@
+::ng-deep .mat-dialog-container {
+    display: block !important;
+    padding: 24px !important;
+    border-radius: 4px !important;
+    box-sizing: border-box !important;
+    overflow: auto !important;
+    outline: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: inherit !important;
+    max-height: inherit !important;
+    background-color: var(--background-color-card) !important;
+  }
+  
+  ::ng-deep .mat-dialog-content {
+    display: block;
+    margin: 0 -24px;
+    padding: 0 24px;
+    max-height: 65vh;
+    overflow: auto;
+    color: var(--text-color) !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  ::ng-deep .mat-dialog-title {
+    margin: 0 0 20px;
+    display: block;
+    color: var(--text-color) !important;
+  }
+  
+  ::ng-deep .mat-divider {
+    display: block;
+    margin: 0;
+    border-top-width: 1px;
+    border-top-style: solid;
+    background-color: var(--text-color) !important;
+  }
+  
+  .matStrokedButton {
+    border-color: rgb(117, 117, 117);
+    color: var(--text-color) !important;
+    margin-left: 15px;
+  }
+  
+  .matStrokedButton-red {
+    border-color: #fa3535;
+    color: var(--text-color) !important;
+    margin-left: 15px;
+  }

@@ -15,7 +15,6 @@
             <input
               matInput
               formControlName="secondCtrl"
-              placeholder="Room"
               [(ngModel)]="roomName"
             /> </mat-form-field
           ><button
@@ -254,7 +253,7 @@
               'button-disabled': disableMqttHostButton === true,
               'button-green': disableMqttHostButton === false
             }"
-            (click)="setMqttHost()"
+            (click)="openMqttHostDialog()"
           >
             Set MQTT Host
           </button>
@@ -265,7 +264,7 @@
               'button-disabled': disableMqttTopicButton === true,
               'button-green': disableMqttTopicButton === false
             }"
-            (click)="setMqttTopic()"
+            (click)="openMqttTopicDialog()"
           >
             Set MQTT Topic
           </button>

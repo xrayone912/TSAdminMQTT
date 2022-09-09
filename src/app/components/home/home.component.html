@@ -5,17 +5,34 @@
 >
   <div *ngFor="let item of this.roomsArray.Rooms">
     <mat-tab label="{{ item.name }}">
-      <div class="content">
+      <div style="place-content: start;" class="content">
         <div
+         
           fxLayout="row wrap"
-          fxLayoutGap="16px grid"
+          fxLayoutGap="1px grid"
           fxLayoutAlign="center center"
         >
           <mat-grid-list
             *ngFor="let device of this.deviceStorage.Devices"
-            cols="2"
+            cols="1"
             rowHeight="2:1"
           >
+            <mat-chip-list *ngIf="fwInfoToggle">
+              <mat-chip
+                (removed)="disableFwInfo(device.ip)"
+                *ngIf="device.isFwUpdate"
+              >
+                <mat-icon>settings_alert</mat-icon>&nbsp; New firmware update
+                available {{ infoFw }}
+                <button matChipRemove>
+                  <mat-icon [ngClass]="{
+                    'cancel-dark': global.darkMode === true,
+                    'cancel-light': global.darkMode === false
+                  }">cancel</mat-icon>
+                </button>
+              </mat-chip>
+            </mat-chip-list>
+
             <mat-card
               *ngIf="device.Room === item.id"
               class="mat-elevation-z4 || mat-card"
@@ -149,29 +166,50 @@
     <mat-card class="mat-elevation-z4">
       <mat-card-header style="text-align: center">
         <mat-card-title
-          >TSAdminMQTT &nbsp; {{ 'v' + this.appVersion
-          }}&nbsp; | &nbsp; MQTT Broker IP: {{localIp}} &nbsp; | &nbsp; Port: 1883<mat-slide-toggle
-            [(ngModel)]="this.global.darkMode"
-            (click)="this.saveGlobal()"
-            [formControl]="darkTheme"
-            >DarkMode</mat-slide-toggle
-          >
-          <div fxLayout="column" fxLayoutAlign="space-around end">
-            <button
-              mat-stroked-button
-              class="buttonSpace"
-              (click)="openTutorialDialog()"
+          >TSAdminMQTT &nbsp; {{ 'v' + this.appVersion }}&nbsp; | &nbsp; MQTT
+          Broker IP: {{ localIp }} &nbsp; | &nbsp; Port: 1883 <br /><br />
+
+          <mat-accordion>
+            <mat-expansion-panel
+              (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false"
             >
-              Tutorial
-            </button>
-            <button
-              mat-stroked-button
-              class="stroked-button-reset"
-              (click)="openResetDialog()"
-            >
-              Restore default settings
-            </button>
-          </div>
+              <mat-expansion-panel-header>
+                <mat-panel-title> Open Settings </mat-panel-title>
+                <mat-panel-description> </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div fxLayout="column" fxLayoutAlign="space-around start">
+                <mat-slide-toggle
+                  [(ngModel)]="this.global.darkMode"
+                  (click)="this.saveGlobal()"
+                  [formControl]="darkTheme"
+                  >DarkMode</mat-slide-toggle
+                ><br />
+                <mat-slide-toggle
+                  [(ngModel)]="fwInfoToggle"
+                  (click)="setShowFwUpdateInfo()"
+                  [formControl]="fwInfo"
+                  >Disable FW update info</mat-slide-toggle
+                >
+              </div>
+              <div fxLayout="column" fxLayoutAlign="space-around end">
+                <button
+                  mat-stroked-button
+                  class="buttonSpace"
+                  (click)="openTutorialDialog()"
+                >
+                  Tutorial
+                </button>
+                <button
+                  mat-stroked-button
+                  class="stroked-button-reset"
+                  (click)="openResetDialog()"
+                >
+                  Restore default settings
+                </button>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
         </mat-card-title>
       </mat-card-header>
       <mat-card-content> </mat-card-content>

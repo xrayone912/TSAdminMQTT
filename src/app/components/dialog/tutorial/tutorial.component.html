@@ -5,6 +5,13 @@
 
   <img src="./assets/images/firewall.png" />
   <p>Allow access.</p>
+  <h3 style="color: rgb(255, 60, 0)">
+    For a manual mqtt setup continue here at step 2 and skip step 4.
+  </h3>
+  <h3 style="color: rgb(255, 60, 0)">
+    For an automatic setup for MQTT skip step 2 and step 3 and continue at step
+    4.
+  </h3>
   <br />
   <mat-divider></mat-divider>
   <br />
@@ -12,7 +19,7 @@
   <h3 style="color: rgb(255, 60, 0)">Step 2</h3>
   <h3>Tasmota settings</h3>
 
-  <p>Enable MQTT</p>
+  <p>Enable MQTT manually</p>
   <p><img src="./assets/images/tsconf.png" /></p>
   <p><img src="./assets/images/otherconf.png" /></p>
   <p><img src="./assets/images/mqtttoggle.png" /></p>
@@ -22,7 +29,7 @@
   <br />
 
   <h3 style="color: rgb(255, 60, 0)">Step 3</h3>
-  <h3>MQTT settings</h3>
+  <h3>MQTT settings (Host & Topic))</h3>
 
   <p><img src="./assets/images/mqttsettings.png" /></p>
   <p><img src="./assets/images/mqttoverview.png" /></p>
@@ -39,6 +46,28 @@
   <br />
 
   <h3 style="color: rgb(255, 60, 0)">Step 4</h3>
+  <h3>MQTT settings automatic</h3>
+
+  <p><img src="./assets/images/mqttAuto.png" /></p>
+
+  <h3 style="color: rgb(255, 60, 0)">
+    Be careful with the automatic mqtt setup, your MQTT Host, MQTT Topi settings
+    will be overwritten for each device.
+  </h3>
+  <li>1 Enable MQTT for all devices</li>
+  <li>2 Set Broker Host Ip for all Devices</li>
+  <li>3 Set MQTT Topic for all devices</li>
+
+  <p>
+    After the three steps in the table above all devices should be green, have a
+    host Ip and the topic should be equal to the device Id
+  </p>
+
+  <br />
+  <mat-divider></mat-divider>
+  <br />
+
+  <h3 style="color: rgb(255, 60, 0)">Step 5</h3>
   <h3>Setup TSAdminMQTT</h3>
 
   <h3>Add rooms</h3>
@@ -80,7 +109,7 @@
   <mat-divider></mat-divider>
   <br />
 
-  <h3 style="color: rgb(255, 60, 0)">Step 5</h3>
+  <h3 style="color: rgb(255, 60, 0)">Step 6</h3>
   <h3>Use TSAdminMQTT</h3>
 
   <p>
@@ -90,6 +119,7 @@
   </p>
 
   <p><img src="./assets/images/setup5.png" /></p>
+  <p><img src="./assets/images/setup8.png" /></p>
   <p><img src="./assets/images/setup6.png" /></p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

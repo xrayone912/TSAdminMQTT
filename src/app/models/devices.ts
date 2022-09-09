@@ -23,6 +23,7 @@ export interface Devices {
   password: string;
   sw: string;
   wifiSingnal: number;
+  isFwUpdate: boolean;
 }
 
 export class DeviceStorage {
@@ -54,6 +55,7 @@ export interface Adapter_Array {
   userName: string;
   password: string;
   isAlive: boolean;
+  isFwUpdate: boolean;
 }
 
 export class Adapter {

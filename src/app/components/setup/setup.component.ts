@@ -10,6 +10,9 @@ import { HttpService } from 'src/app/services/http.service';
 import { environment } from '../../../environments/environment';
 import { MqttInfo, MqttStatus } from '../../models/devices';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { WarningComponent } from "../dialog/warning/warning.component";
+import { Warning2Component } from "../dialog/warning2/warning2.component";
 
 declare const findAllDevices: any;
 @Component({
@@ -47,7 +50,8 @@ export class SetupComponent implements OnInit {
     public roomsArray: Room_Array,
     private toastr: ToastrService,
     public httpService: HttpService,
-    public mqttStatus: MqttInfo
+    public mqttStatus: MqttInfo,
+    public dialog: MatDialog,
   ) {
     if ((<any>window).require) {
       try {
@@ -322,7 +326,7 @@ export class SetupComponent implements OnInit {
                 this.dataSource.data = this.mqttStatus.mqttInfo;
               }
             });
-          }, 2000);
+          }, 5000);
         } catch (error) {}
       });
     });
@@ -333,6 +337,22 @@ export class SetupComponent implements OnInit {
       (item) => item.id !== id
     );
     this.dbService.bulkDelete('rooms', [id]).subscribe((result) => {});
+  }
+
+  openMqttHostDialog() {
+    const dialogRef = this.dialog.open(WarningComponent);
+    dialogRef.afterClosed().subscribe((result) => {});
+    const sub = dialogRef.componentInstance.onAdd.subscribe(() => {
+      this.setMqttHost();
+    });
+  }
+
+  openMqttTopicDialog() {
+    const dialogRef = this.dialog.open(Warning2Component);
+    dialogRef.afterClosed().subscribe((result) => {});
+    const sub = dialogRef.componentInstance.onAdd.subscribe(() => {
+      this.setMqttTopic();
+    });
   }
 
   showSuccess() {
