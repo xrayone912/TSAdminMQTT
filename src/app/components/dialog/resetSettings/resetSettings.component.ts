@@ -27,7 +27,7 @@ export class ResetSettingsComponent implements OnInit {
 
   ngOnInit() {}
 
-  deleteIndexedDB() {
+  public deleteIndexedDB() {
     this.dbService
       .deleteDatabase()
       .subscribe((result: any) => {
@@ -36,7 +36,7 @@ export class ResetSettingsComponent implements OnInit {
           this.restartApp();
   }
 
-  showRestart() {
+  public showRestart() {
     this.toastr.warning(environment.toastrRestart, '', {
       closeButton: true,
       timeOut: 4000,
@@ -44,7 +44,7 @@ export class ResetSettingsComponent implements OnInit {
     });
   }
 
-  restartApp() {
+  public restartApp() {
     setTimeout(() => {
       this.ipc?.send('restart');
     }, 2000);

@@ -5,9 +5,8 @@
 >
   <div *ngFor="let item of this.roomsArray.Rooms">
     <mat-tab label="{{ item.name }}">
-      <div style="place-content: start;" class="content">
+      <div style="place-content: start" class="content">
         <div
-         
           fxLayout="row wrap"
           fxLayoutGap="1px grid"
           fxLayoutAlign="center center"
@@ -20,15 +19,18 @@
             <mat-chip-list *ngIf="fwInfoToggle">
               <mat-chip
                 (removed)="disableFwInfo(device.ip)"
-                *ngIf="device.isFwUpdate"
+                *ngIf="device.isFwUpdate && device.Room === item.id"
               >
                 <mat-icon>settings_alert</mat-icon>&nbsp; New firmware update
                 available {{ infoFw }}
                 <button matChipRemove>
-                  <mat-icon [ngClass]="{
-                    'cancel-dark': global.darkMode === true,
-                    'cancel-light': global.darkMode === false
-                  }">cancel</mat-icon>
+                  <mat-icon
+                    [ngClass]="{
+                      'cancel-dark': global.darkMode === true,
+                      'cancel-light': global.darkMode === false
+                    }"
+                    >cancel</mat-icon
+                  >
                 </button>
               </mat-chip>
             </mat-chip-list>

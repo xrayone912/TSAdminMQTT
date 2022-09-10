@@ -101,7 +101,7 @@ export class HomeComponent implements OnInit {
     this.checkTsFwUpdate();
   }
 
-  watchMqttStates() {
+  public watchMqttStates() {
     this.subscription = this._mqttService
       .observe('#')
       .subscribe((message: IMqttMessage) => {
@@ -137,31 +137,32 @@ export class HomeComponent implements OnInit {
                     }
                   : x
               );
-              var test = this.deviceStorage.Devices.filter(
+              var filteredDevices = this.deviceStorage.Devices.filter(
                 (x) => x.ip === r[0]
               );
-
-              if (test[0].sw.localeCompare(this.infoFw)) {
-                this.deviceStorage.Devices = this.deviceStorage.Devices.map(
-                  (x) =>
-                    x.ip === r[0]
-                      ? {
-                          ...x,
-                          isFwUpdate: true
-                        }
-                      : x
-                );
-              } else {
-                this.deviceStorage.Devices = this.deviceStorage.Devices.map(
-                  (x) =>
-                    x.ip === r[0]
-                      ? {
-                          ...x,
-                          isFwUpdate: false
-                        }
-                      : x
-                );
-              }
+              setTimeout(() => {
+                if (filteredDevices[0].sw.localeCompare(this.infoFw)) {
+                  this.deviceStorage.Devices = this.deviceStorage.Devices.map(
+                    (x) =>
+                      x.ip === r[0]
+                        ? {
+                            ...x,
+                            isFwUpdate: true
+                          }
+                        : x
+                  );
+                } else {
+                  this.deviceStorage.Devices = this.deviceStorage.Devices.map(
+                    (x) =>
+                      x.ip === r[0]
+                        ? {
+                            ...x,
+                            isFwUpdate: false
+                          }
+                        : x
+                  );
+                }
+              }, 1500);
             }
           } catch (error) {}
 
@@ -216,7 +217,7 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  getDeviceStatus() {
+  public getDeviceStatus() {
     this.dbService.getAll('adpater').subscribe((adapter: any[]) => {
       adapter.forEach((element) => {
         this._mqttService
@@ -233,7 +234,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  wifiSignalStrengthCalc(signal: number) {
+  public wifiSignalStrengthCalc(signal: number) {
     if (signal >= 66) {
       return 1;
     }
@@ -250,7 +251,7 @@ export class HomeComponent implements OnInit {
     return null;
   }
 
-  openBottomSheet(ip: any, userName: string, password: string): void {
+  public openBottomSheet(ip: any, userName: string, password: string): void {
     this.global.ip = ip;
     this.global.userName = userName;
     this.global.password = password;
@@ -282,7 +283,7 @@ export class HomeComponent implements OnInit {
     }, 500);
   }
 
-  DevicePowerOn(ip: string, power: number): void {
+  public DevicePowerOn(ip: string, power: number): void {
     if (power === 0) {
       this._mqttService
         .publish(
@@ -308,17 +309,17 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  openTutorialDialog() {
+  public openTutorialDialog() {
     const dialogRef = this.dialog.open(TutorialComponent);
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
-  openResetDialog() {
+  public openResetDialog() {
     const dialogRef = this.dialog.open(ResetSettingsComponent);
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
-  deleteBackupFile(fileName: string, ip: string) {
+  public deleteBackupFile(fileName: string, ip: string) {
     this.ipc?.send('deleteFile', fileName, environment.deletePathBackupFolder);
     this.ipc?.on('deleted', (event) => {
       this.readBackupFolder(ip);
@@ -326,7 +327,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  readBackupFolder(ip: string) {
+  public readBackupFolder(ip: string) {
     this.backupFiles = [];
     this.ipc?.send('readFiles', environment.readPathBackupFolder);
     this.ipc?.on('files', (event, files: string[]) => {
@@ -339,7 +340,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  backup(ip: string) {
+  public backup(ip: string) {
     const newURL = environment.httpBaseUrl + ip + environment.suffixDL;
     this.ipc?.send(
       'download-button',
@@ -355,13 +356,13 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  getLocalIp() {
+  public getLocalIp() {
     (async () => {
       this.localIp = await this.ipc?.invoke('getIp');
     })();
   }
 
-  saveGlobal() {
+  public saveGlobal() {
     const data = {
       darkMode: !this.darkTheme.value
     };
@@ -383,7 +384,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  setShowFwUpdateInfo() {
+  public setShowFwUpdateInfo() {
     const data = {
       fwinfo: !this.fwInfoToggle
     };
@@ -405,13 +406,13 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  checkTsFwUpdate() {
+  public checkTsFwUpdate() {
     this.httpService.checkTsFwUpdate().subscribe((result) => {
       this.infoFw = result.name.replace(/[^\d.-]/g, '');
     });
   }
 
-  disableFwInfo(ip: string) {
+  public disableFwInfo(ip: string) {
     this.deviceStorage.Devices = this.deviceStorage.Devices.map((x) =>
       x.ip === ip
         ? {
@@ -422,7 +423,7 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  showBackupSuccess(basePath: string) {
+  public showBackupSuccess(basePath: string) {
     this.toastr.success(
       environment.toastrSuccessDL + basePath + environment.readPathBackupFolder,
       '',
@@ -435,7 +436,7 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  fileDeleted() {
+  public fileDeleted() {
     this.toastr.success(environment.toastrDeleteDL, '', {
       closeButton: environment.toastrcloseButton,
       timeOut: environment.toastrTimeOut,

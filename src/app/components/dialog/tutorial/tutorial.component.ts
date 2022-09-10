@@ -30,7 +30,7 @@ export class TutorialComponent implements OnInit {
     this.getLocalIp();
   }
 
-  getTutorialInfo() {
+ public getTutorialInfo() {
     this.dbService.getByKey('tutorial', 1).subscribe((tutorial: any) => {
       if (tutorial !== null) {
         this.globalData.isTutorial = tutorial;
@@ -38,13 +38,13 @@ export class TutorialComponent implements OnInit {
     });
   }
 
-  getLocalIp() {
+  public getLocalIp() {
     (async () => {
       this.localIp = await this.ipc?.invoke('getIp');
     })();
   }
 
-  saveGlobal() {
+  public saveGlobal() {
     const data = {
       tutorial: !this.globalData.isTutorial
     };

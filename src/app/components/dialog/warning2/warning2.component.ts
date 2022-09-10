@@ -14,7 +14,7 @@ export class Warning2Component implements OnInit {
 
   onAdd = new EventEmitter();
   
-  onButtonClick() {
+ public onButtonClick() {
     this.onAdd.emit();
   }
 }

@@ -29,6 +29,7 @@ export class SetupComponent implements OnInit {
  public roomName = '';
  public hide = true;
  public hideSpinner!: boolean;
+ public hideRefreshSpinner = true;
  public scan!: boolean;
  public localIp = '';
  public disableMqttHostButton = true;
@@ -59,8 +60,7 @@ export class SetupComponent implements OnInit {
       } catch (e) {
         throw e;
       }
-    } else {
-    }
+    } 
   }
 
   ngOnInit() {
@@ -85,10 +85,9 @@ export class SetupComponent implements OnInit {
     }, 1000);
 
     this.getLocalIp();
-    this.getMqttStatus();
   }
 
-  async getAllTsAdapter() {
+  public async getAllTsAdapter() {
     this.hideSpinner = false;
     this.scan = true;
     this.deviceStorage.Devices = [] = [];
@@ -103,7 +102,7 @@ export class SetupComponent implements OnInit {
     }, 15000);
   }
 
-  updateCredentials(index: number) {
+  public updateCredentials(index: number) {
     let ip = this.deviceStorage.Devices[index].ip;
     let username = this.deviceStorage.Devices[index].userName;
     let password = this.deviceStorage.Devices[index].password;
@@ -118,8 +117,8 @@ export class SetupComponent implements OnInit {
       }
     });
   }
-
-  saveAdapter(drop: boolean) {
+  
+ public saveAdapter(drop: boolean) {
     this.dbService.clear('adpater').subscribe((successDeleted) => {});
     this.deviceStorage.Devices.forEach((element) => {
       this.dbService
@@ -158,13 +157,13 @@ export class SetupComponent implements OnInit {
     }
   }
 
-  restartApp() {
+  public restartApp() {
     setTimeout(() => {
       this.ipc?.send('restart');
     }, 2000);
   }
 
-  addRoom(name: string) {
+  public addRoom(name: string) {
     this.dbService
       .add('rooms', {
         name: name,
@@ -181,7 +180,7 @@ export class SetupComponent implements OnInit {
       });
   }
 
-  dropDevices(event: CdkDragDrop<string[]>, drop: boolean) {
+  public dropDevices(event: CdkDragDrop<string[]>, drop: boolean) {
     moveItemInArray(
       this.deviceStorage.Devices,
       event.previousIndex,
@@ -190,7 +189,7 @@ export class SetupComponent implements OnInit {
     this.saveAdapter(drop);
   }
 
-  dropRooms(event: CdkDragDrop<string[]>) {
+  public dropRooms(event: CdkDragDrop<string[]>) {
     moveItemInArray(
       this.roomsArray.Rooms,
       event.previousIndex,
@@ -206,7 +205,7 @@ export class SetupComponent implements OnInit {
     });
   }
 
-  getRoomsFromIndexedDB() {
+  public getRoomsFromIndexedDB() {
     this.dbService.getAll('rooms').subscribe((rooms: any[]) => {
       rooms.forEach((element) => {
         var room = {
@@ -218,7 +217,7 @@ export class SetupComponent implements OnInit {
     });
   }
 
-  enableMqttforAllDevices() {
+  public enableMqttforAllDevices() {
     this.deviceStorage.Devices.forEach((device) => {
       if (device.userName !== undefined) {
         this.httpService
@@ -233,7 +232,7 @@ export class SetupComponent implements OnInit {
     this.getMqttStatus();
   }
 
-  disableMqttforAllDevices() {
+  public disableMqttforAllDevices() {
     this.deviceStorage.Devices.forEach((device) => {
       if (device.userName !== undefined) {
         this.httpService
@@ -247,7 +246,7 @@ export class SetupComponent implements OnInit {
     this.getMqttStatus();
   }
 
-  setMqttHost() {
+  public setMqttHost() {
     this.deviceStorage.Devices.forEach((device) => {
       if (device.userName !== undefined) {
         this.httpService
@@ -264,7 +263,7 @@ export class SetupComponent implements OnInit {
     this.getMqttStatus();
   }
 
-  setMqttTopic() {
+  public setMqttTopic() {
     this.deviceStorage.Devices.forEach((device) => {
       if (device.userName !== undefined) {
         this.httpService
@@ -287,12 +286,13 @@ export class SetupComponent implements OnInit {
     })();
   }
 
-  getMqttStatus() {
+  public getMqttStatus() {
     this.dataSource.data = [];
     this.mqttStatus.mqttInfo = [];
 
-    this.dbService.getAll('adpater').subscribe((adapter: any[]) => {
-      adapter.forEach((device) => {
+   this.hideRefreshSpinner = false;
+    
+      this.deviceStorage.Devices.forEach((device) => {
         try {
           if (device.userName !== undefined) {
             this.httpService
@@ -329,17 +329,16 @@ export class SetupComponent implements OnInit {
           }, 5000);
         } catch (error) {}
       });
-    });
   }
 
-  deleteRoom(id: number) {
+  public deleteRoom(id: number) {
     this.roomsArray.Rooms = this.roomsArray.Rooms.filter(
       (item) => item.id !== id
     );
     this.dbService.bulkDelete('rooms', [id]).subscribe((result) => {});
   }
 
-  openMqttHostDialog() {
+  public openMqttHostDialog() {
     const dialogRef = this.dialog.open(WarningComponent);
     dialogRef.afterClosed().subscribe((result) => {});
     const sub = dialogRef.componentInstance.onAdd.subscribe(() => {
@@ -347,7 +346,7 @@ export class SetupComponent implements OnInit {
     });
   }
 
-  openMqttTopicDialog() {
+  public openMqttTopicDialog() {
     const dialogRef = this.dialog.open(Warning2Component);
     dialogRef.afterClosed().subscribe((result) => {});
     const sub = dialogRef.componentInstance.onAdd.subscribe(() => {
@@ -355,21 +354,21 @@ export class SetupComponent implements OnInit {
     });
   }
 
-  showSuccess() {
+  public showSuccess() {
     this.toastr.success(environment.toastrSaved, '', {
       closeButton: true,
       timeOut: environment.toastrTimeOut,
       progressBar: environment.toastrProgressBar
     });
   }
-  showRestart() {
+  public showRestart() {
     this.toastr.warning(environment.toastrRestart, '', {
       closeButton: environment.toastrcloseButton,
       timeOut: environment.toastrTimeOut,
       progressBar: environment.toastrProgressBar
     });
   }
-  showUpdate() {
+  public showUpdate() {
     this.toastr.success(environment.toastrDeviceUpdate, '', {
       closeButton: environment.toastrcloseButton,
       timeOut: environment.toastrTimeOut,
@@ -377,7 +376,7 @@ export class SetupComponent implements OnInit {
     });
   }
 
-  showMqttEnabled() {
+  public showMqttEnabled() {
     this.toastr.success(environment.toastrMQTTenabled, '', {
       closeButton: environment.toastrcloseButton,
       timeOut: environment.toastrTimeOut,
@@ -385,10 +384,10 @@ export class SetupComponent implements OnInit {
     });
     setTimeout(() => {
       this.disableMqttHostButton = false;
-    }, 3000);
+    }, 5000);
   }
 
-  showMqttHostSet() {
+  public showMqttHostSet() {
     this.toastr.success(environment.toastrMQTTsetHost, '', {
       closeButton: environment.toastrcloseButton,
       timeOut: environment.toastrTimeOut,
@@ -396,10 +395,10 @@ export class SetupComponent implements OnInit {
     });
     setTimeout(() => {
       this.disableMqttTopicButton = false;
-    }, 3000);
+    }, 5000);
   }
 
-  showMqttTopicSet() {
+ public showMqttTopicSet() {
     this.toastr.success(environment.toastrMQTTsetTopic, '', {
       closeButton: environment.toastrcloseButton,
       timeOut: environment.toastrTimeOut,
