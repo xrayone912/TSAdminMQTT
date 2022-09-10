@@ -7,6 +7,7 @@ TSAdminMQTT is an application to control and manage SmartHome devices running wi
 
 - [Windows V1.1.0](https://www.dropbox.com/s/egessj6j4502xbw/TSAdminMQTT_v1.1.0-windows-x64.zip?dl=1)
 - [Linux V1.1.0](https://www.dropbox.com/s/tsc4dg2purn5p19/TSAdminMQTT_v1.1.0-linux-x64.zip?dl=1)
+- [MacOS V1.1.0](https://www.dropbox.com/s/xb6mhs1na7axkwb/TSAdminMQTT_v1.1.0-MacOS-x64.zip?dl=1)
 
 ## Features v1.1.0
 
