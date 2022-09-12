@@ -112,6 +112,7 @@ export class SetupComponent implements OnInit {
         data[environment.Status].userName = username;
         data[environment.Status].password = password;
         data[environment.Status].setCredentials = true;
+        data[environment.Status].is401 = false;
         this.deviceStorage.Devices.splice(index, 1, data[environment.Status]);
         this.showUpdate();
       }
@@ -142,7 +143,8 @@ export class SetupComponent implements OnInit {
           Room: element.Room,
           setCredentials: element.setCredentials,
           userName: element.userName,
-          password: element.password
+          password: element.password,
+          is401: element.is401
         })
         .subscribe((key) => {
           this.returnMsg = 'Data added successfully';

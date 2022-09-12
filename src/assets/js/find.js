@@ -17,13 +17,14 @@ function findAllDevices() {
         .then((resp) => {
           if (resp.status === 200 && resp.data.Status !== undefined) {
             resp.data.Status['ip'] = element;
+            resp.data.is401 = false;
             adapter.push(resp.data.Status);
           }
         })
         .catch(function (error) {
           if (error.response.status === 401) {
             var info = "IP: " + element + " Adapter with access data found Please enter user name and password in the next step then the adapter name will be updated"
-            adapter.push({FriendlyName: [info], ip: element})
+            adapter.push({FriendlyName: [info], ip: element, is401: true})
           }
         });
 

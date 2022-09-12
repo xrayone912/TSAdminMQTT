@@ -24,6 +24,7 @@ export interface Devices {
   sw: string;
   wifiSingnal: number;
   isFwUpdate: boolean;
+  is401: boolean;
 }
 
 export class DeviceStorage {
@@ -56,6 +57,7 @@ export interface Adapter_Array {
   password: string;
   isAlive: boolean;
   isFwUpdate: boolean;
+  is401: boolean;
 }
 
 export class Adapter {

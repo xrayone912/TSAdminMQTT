@@ -83,15 +83,18 @@
                 cdkDrag
                 [cdkDragDisabled]="false"
               >
-              <div style="padding-right: 15px;">
-                {{ device.FriendlyName }}
-              </div>
+                <div style="padding-right: 15px">
+                  {{ device.FriendlyName }}
+                </div>
                 <mat-form-field>
                   <mat-label>Select room</mat-label>
-                  <mat-select [(value)]="this.deviceStorage.Devices[i].Room">
+                  <mat-select
+                    [disabled]="deviceStorage.Devices[i].is401"
+                    [(value)]="deviceStorage.Devices[i].Room"
+                  >
                     <mat-option>None</mat-option>
                     <mat-option
-                      *ngFor="let room of this.roomsArray.Rooms"
+                      *ngFor="let room of roomsArray.Rooms"
                       [value]="room.id"
                     >
                       {{ room.name }}
