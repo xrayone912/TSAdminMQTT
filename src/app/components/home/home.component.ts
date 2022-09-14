@@ -356,6 +356,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  public openExtrenalUrl() {
+    this.ipc?.send('openUrl');
+  }
+
   public getLocalIp() {
     (async () => {
       this.localIp = await this.ipc?.invoke('getIp');

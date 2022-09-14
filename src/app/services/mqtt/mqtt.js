@@ -22,10 +22,10 @@ httpServer.listen(wsPort, function () {
 })
 
 aedes.on('clientError', function (client, err) {
-  console.log('client error', client.id, err.message, err.stack)
+  //console.log('client error', client.id, err.message, err.stack)
 })
 
 aedes.on('connectionError', function (client, err) {
-  console.log('client error', client, err.message, err.stack)
+  //console.log('client error', client, err.message, err.stack)
 })
 }

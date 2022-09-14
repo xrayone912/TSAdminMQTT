@@ -18,6 +18,7 @@
           >
             <mat-chip-list *ngIf="fwInfoToggle">
               <mat-chip
+                (click)="openExtrenalUrl()"
                 (removed)="disableFwInfo(device.ip)"
                 *ngIf="device.isFwUpdate && device.Room === item.id"
               >

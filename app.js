@@ -5,6 +5,7 @@ const { ipcMain } = require('electron');
 const ip = require('ip');
 const { download } = require('electron-dl');
 const fs = require('fs');
+const shell = require('electron').shell;
 
 let mainWindow;
 
@@ -63,16 +64,24 @@ ipcMain.on('deleteFile', (event, data, deletePathBackupFolder) => {
   event.sender.send('deleted');
 });
 
-ipcMain.on('download-button', async (event, { url }, ip, readPathBackupFolder, fileExtension) => {
-  var basepath = app.getAppPath();
-  var todayDate = new Date().toISOString().slice(0, 10);
-  const win = BrowserWindow.getFocusedWindow();
-  basepath = basepath.replace('app.asar', '');
-  event.sender.send('download-success', url, basepath);
-  await download(win, url, {
-    directory: basepath + readPathBackupFolder,
-    filename: ip + '_' + todayDate + fileExtension
-  });
+ipcMain.on(
+  'download-button',
+  async (event, { url }, ip, readPathBackupFolder, fileExtension) => {
+    var basepath = app.getAppPath();
+    var todayDate = new Date().toISOString().slice(0, 10);
+    const win = BrowserWindow.getFocusedWindow();
+    basepath = basepath.replace('app.asar', '');
+    event.sender.send('download-success', url, basepath);
+    await download(win, url, {
+      directory: basepath + readPathBackupFolder,
+      filename: ip + '_' + todayDate + fileExtension
+    });
+  }
+);
+
+ipcMain.on('openUrl', (event) => {
+  event.preventDefault();
+  shell.openExternal('https://tasmota.github.io/docs/Upgrading/index.html');
 });
 
 ipcMain.handle('getIp', () => {
