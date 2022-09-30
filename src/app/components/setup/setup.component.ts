@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
-import { DeviceStorage } from 'src/app/models/devices';
+import { DeviceStorage, global } from 'src/app/models/devices';
 import { Room_Array } from '../../models/rooms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ToastrService } from 'ngx-toastr';
@@ -53,6 +53,7 @@ export class SetupComponent implements OnInit {
     public httpService: HttpService,
     public mqttStatus: MqttInfo,
     public dialog: MatDialog,
+    public global: global,
   ) {
     if ((<any>window).require) {
       try {

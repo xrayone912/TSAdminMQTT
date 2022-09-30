@@ -6,7 +6,8 @@ import { Injectable } from '@angular/core';
 export const darkTheme: any = {
   'background-color-card': '#282828',
   'background-color': '#1F1F1F',
-  'text-color': '#EFEFEF'
+  'text-color': '#EFEFEF',
+  'keyboard-button': '#414141'
 };
 /**
  * light style settings
@@ -14,7 +15,8 @@ export const darkTheme: any = {
 export const lightTheme: any = {
   'background-color-card': '#FFFFFF',
   'background-color': '#FFFFFF',
-  'text-color': '#2d2d2d'
+  'text-color': '#2d2d2d',
+  'keyboard-button': '#eceef0'
 };
 
 @Injectable({

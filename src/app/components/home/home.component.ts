@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   private subscription!: Subscription;
   public message!: string;
   public package!: any;
+  public ScreenKeyboard = new FormControl(true);
   public darkTheme = new FormControl(true);
   public fwInfo = new FormControl(true);
   public ipc: IpcRenderer | undefined;
@@ -35,6 +36,7 @@ export class HomeComponent implements OnInit {
   public infoFw!: string;
   public fwInfoToggle = true;
   public panelOpenState = false;
+  public onScreenKeyboard = true;
 
   constructor(
     public deviceStorage: DeviceStorage,
@@ -79,6 +81,14 @@ export class HomeComponent implements OnInit {
         this.global.darkMode = darkMode.darkmode;
       } else {
         this.global.darkMode = true;
+      }
+    });
+
+    this.dbService.getByKey('onScreenKeyboard', 1).subscribe((onScreenKeyboard: any) => {
+      if (onScreenKeyboard !== undefined) {
+        this.global.onScreenKeyboard = onScreenKeyboard;
+      } else {
+        this.global.onScreenKeyboard = true;
       }
     });
 
@@ -386,6 +396,29 @@ export class HomeComponent implements OnInit {
           .subscribe((storeData) => {});
       }
     });
+  }
+
+ public saveOnScreenKeyboard(){
+  const data = {
+    onScreenKeyboard: !this.onScreenKeyboard
+  };
+  this.dbService.getByKey('onScreenKeyboard', 1).subscribe((onScreenKeyboard) => {
+    if (onScreenKeyboard !== null) {
+      this.dbService
+        .update('onScreenKeyboard', {
+          id: 1,
+          onScreenKeyboard: data.onScreenKeyboard
+        })
+        .subscribe((storeData) => {});
+    } else {
+      this.dbService
+        .add('onScreenKeyboard', {
+          onScreenKeyboard: data.onScreenKeyboard
+        })
+        .subscribe((storeData) => {});
+    }
+  });
+  this.global.onScreenKeyboard = data.onScreenKeyboard;
   }
 
   public setShowFwUpdateInfo() {

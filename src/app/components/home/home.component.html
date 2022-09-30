@@ -193,6 +193,12 @@
                   (click)="setShowFwUpdateInfo()"
                   [formControl]="fwInfo"
                   >Disable FW update info</mat-slide-toggle
+                ><br />
+                <mat-slide-toggle
+                  [(ngModel)]="onScreenKeyboard"
+                  (click)="saveOnScreenKeyboard()"
+                  [formControl]="ScreenKeyboard"
+                  >onScreenKeyboard</mat-slide-toggle
                 >
               </div>
               <div fxLayout="column" fxLayoutAlign="space-around end">

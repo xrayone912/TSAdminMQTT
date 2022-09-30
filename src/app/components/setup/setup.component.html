@@ -13,6 +13,17 @@
           <mat-form-field>
             <mat-label>Room Name</mat-label>
             <input
+              *ngIf="global.onScreenKeyboard"
+              ngxTouchKeyboard
+              ngxTouchKeyboardFullScreen
+              #touchKeyboard="ngxTouchKeyboard"
+              (focus)="touchKeyboard.openPanel()"
+              matInput
+              formControlName="secondCtrl"
+              [(ngModel)]="roomName"
+            />
+            <input
+              *ngIf="!global.onScreenKeyboard"
               matInput
               formControlName="secondCtrl"
               [(ngModel)]="roomName"
@@ -137,6 +148,17 @@
                 <mat-expansion-panel-header>
                   <mat-panel-title>
                     <input
+                      *ngIf="global.onScreenKeyboard"
+                      ngxTouchKeyboard
+                      ngxTouchKeyboardFullScreen
+                      #touchKeyboard="ngxTouchKeyboard"
+                      (focus)="touchKeyboard.openPanel()"
+                      matInput
+                      placeholder=""
+                      [(ngModel)]="this.deviceStorage.Devices[i].FriendlyName"
+                    />
+                    <input
+                      *ngIf="!global.onScreenKeyboard"
                       matInput
                       placeholder=""
                       [(ngModel)]="this.deviceStorage.Devices[i].FriendlyName"
@@ -152,6 +174,17 @@
                 <mat-form-field class="full-width">
                   <mat-label>Username</mat-label>
                   <input
+                    *ngIf="global.onScreenKeyboard"
+                    ngxTouchKeyboard
+                    ngxTouchKeyboardFullScreen
+                    #touchKeyboard="ngxTouchKeyboard"
+                    (focus)="touchKeyboard.openPanel()"
+                    matInput
+                    placeholder=""
+                    [(ngModel)]="this.deviceStorage.Devices[i].userName"
+                  />
+                  <input
+                    *ngIf="!global.onScreenKeyboard"
                     matInput
                     placeholder=""
                     [(ngModel)]="this.deviceStorage.Devices[i].userName"
@@ -160,6 +193,19 @@
                 <mat-form-field class="full-width">
                   <mat-label>Password</mat-label>
                   <input
+                    *ngIf="global.onScreenKeyboard"
+                    ngxTouchKeyboard
+                    ngxTouchKeyboardFullScreen
+                    #touchKeyboard="ngxTouchKeyboard"
+                    (focus)="touchKeyboard.openPanel()"
+                    matInput
+                    type="password"
+                    placeholder=""
+                    [type]="hide ? 'password' : 'text'"
+                    [(ngModel)]="this.deviceStorage.Devices[i].password"
+                  />
+                  <input
+                    *ngIf="!global.onScreenKeyboard"
                     matInput
                     type="password"
                     placeholder=""

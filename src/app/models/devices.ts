@@ -70,6 +70,7 @@ export class global {
   password!: string;
   darkMode = true;
   isTutorial!: boolean;
+  onScreenKeyboard!: boolean;
 }
 
 export interface MqttStatus{

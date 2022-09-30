@@ -46,6 +46,7 @@ import { TutorialComponent } from './components/dialog/tutorial/tutorial.compone
 import { ResetSettingsComponent } from './components/dialog/resetSettings/resetSettings.component';
 import { WarningComponent } from "./components/dialog/warning/warning.component";
 import { Warning2Component } from "./components/dialog/warning2/warning2.component";
+import { NgxTouchKeyboardModule }  from 'ngx-touch-keyboard';
 
 const dbConfig: DBConfig = {
   name: 'SHAdmin.DB',
@@ -80,6 +81,13 @@ const dbConfig: DBConfig = {
       storeConfig: { keyPath: 'id', autoIncrement: true },
       storeSchema: [
         { name: 'tutorial', keypath: 'tutorial', options: { unique: false } }
+      ]
+    },
+    {
+      store: 'onScreenKeyboard',
+      storeConfig: { keyPath: 'id', autoIncrement: true },
+      storeSchema: [
+        { name: 'onScreenKeyboard', keypath: 'onScreenKeyboard', options: { unique: false } }
       ]
     },
     {
@@ -163,6 +171,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     Warning2Component
   ],
   imports: [
+    NgxTouchKeyboardModule,
     FlexLayoutModule,
     BrowserModule,
     AppRoutingModule,
