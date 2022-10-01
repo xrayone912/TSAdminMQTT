@@ -7,6 +7,7 @@
     "windows": "ng build --configuration=windows --base-href ./ && electron . ",
     "linux": "ng build --configuration=linux --base-href ./ && electron . ",
     "macOS": "ng build --configuration=macOS --base-href ./ && electron . ",
+    "arm7l": "ng build --configuration=armv7l --base-href ./ && electron . ",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "prebuild": "npm --no-git-tag-version version patch",
@@ -16,7 +17,7 @@
     "electron-package-windows": " npm run prebuild && ng build --configuration=windows && electron-packager . TSAdminMQTT --platform=win32 --arch=x64 --asar --overwrite --icon=./src/favicon.ico --our=TSAdminMQTT_Windows --ignore=^/.angular",
     "electron-package-linux": " npm run prebuild && ng build --configuration=linux && electron-packager . TSAdminMQTT --platform=linux --arch=x64 --asar --overwrite --icon=./src/favicon.ico --our=TSAdminMQTT_Linux --ignore=^/.angular",
     "electron-package-macOS": " npm run prebuild && ng build --configuration=macOS && electron-packager . TSAdminMQTT --platform=darwin --arch=x64 --asar --overwrite --icon=./src/favicon.ico --our=TSAdminMQTT_MacOS --ignore=^/.angular",
-    "electron-package-linux-arm": " npm run prebuild && ng build --configuration=linux && electron-packager . TSAdminMQTT --platform=linux --arm32 --arch=armv7l --asar --overwrite --icon=./src/favicon.ico --our=TSAdminMQTT_Linux_arm --ignore=^/.angular",
+    "electron-package-arm7l": " npm run prebuild && ng build --configuration=linux && electron-packager . TSAdminMQTT --platform=linux --arch=armv7l --asar --overwrite --icon=./src/favicon.ico --our=TSAdminMQTT_Linux_arm --ignore=^/.angular",
     "e2e": "ng e2e"
   },
   "private": true,

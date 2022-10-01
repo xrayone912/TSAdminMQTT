@@ -28,7 +28,7 @@ TSAdminMQTT is an application to control and manage SmartHome devices running wi
 
 ## Tech Stack
 
-**Client:** [Angular](https://angular.io/) 14.1.3 with Electron v20.0.1 build for Win, Linux, MacOS 
+**Client:** [Angular](https://angular.io/) 14.1.3 with Electron v20.0.1 build for Win, Linux, MacOS, arm7l (Raspberry PI) [Beta] 
 
 **MQTT Broker:** [Aedes](https://github.com/moscajs/aedes)
 
@@ -72,6 +72,10 @@ Run `npm run linux` for start TSAdminMQTT
 
 Run `npm run macOS` for start TSAdminMQTT
 
+## Start TSAdminMQTT development arm7l (Raspberry PI 3+)
+
+Run `npm run arm7l` for start TSAdminMQTT
+
 ## Build Windows
 
 Run `npm run electron-package-windows` to build the project.
@@ -85,6 +89,12 @@ Run `npm run electron-package-linux` to build the project.
 !!! Important the MacOs build must be done under a Linux operating system !!!
 
 Run `npm run electron-package-macOS` to build the project.
+
+## arm7l (Raspberry PI 3+)
+
+!!! Important the MacOs build must be done under a Linux operating system !!!
+
+Run `npm run electron-package-arm7l` to build the project.
 
 ## Running unit tests
 
