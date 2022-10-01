@@ -9,7 +9,7 @@ TSAdminMQTT is an application to control and manage SmartHome devices running wi
 - [Linux V1.1.2](https://www.dropbox.com/s/be7i3d69iscu0hv/TSAdminMQTT_v.1.1.2-linux-x64.zip?dl=1)
 - [MacOS V1.1.2](https://www.dropbox.com/s/z9o6a484vfk2j1n/TSAdminMQTT_v.1.1.2-MacOS-x64.zip?dl=1)
 
-## Features v1.1.2
+## Features v1.1.3
 
 - Auto Setup for MQTT Enable, set Host, Set Topic for all devices
 - Save and manage config backups
@@ -23,6 +23,7 @@ TSAdminMQTT is an application to control and manage SmartHome devices running wi
 - Includes an [MQTT broker](https://github.com/moscajs/aedes)
 - Displays live power states of the device
 - Data / Settings storage in an [ngx-indexed-db](https://github.com/assuncaocharles/ngx-indexed-db)
+- OnScreenKeyboard for mobile devices (Can be disabled for desktop mode in the settings)(https://github.com/ngx-material-keyboard)  
 
 
 ## Tech Stack
