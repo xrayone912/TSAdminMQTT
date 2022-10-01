@@ -23,7 +23,7 @@ TSAdminMQTT is an application to control and manage SmartHome devices running wi
 - Includes an [MQTT broker](https://github.com/moscajs/aedes)
 - Displays live power states of the device
 - Data / Settings storage in an [ngx-indexed-db](https://github.com/assuncaocharles/ngx-indexed-db)
-- OnScreenKeyboard for mobile devices (Can be disabled for desktop mode in the settings)(https://github.com/ngx-material-keyboard)  
+- OnScreenKeyboard for mobile devices (Can be disabled for desktop mode in the settings)[ngx-material-keyboard(https://github.com/ngx-material-keyboard)  
 
 
 ## Tech Stack
