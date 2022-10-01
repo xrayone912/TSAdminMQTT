@@ -21,7 +21,7 @@ TSAdminMQTT is an application to control and manage SmartHome devices running wi
 - Assign devices to room
 - Manage Tasmota devices
 - Includes an [MQTT broker](https://github.com/moscajs/aedes)
-- Displays live power states of the device
+- Displays live power states of the tasmota device
 - Data / Settings storage in an [ngx-indexed-db](https://github.com/assuncaocharles/ngx-indexed-db)
 - OnScreenKeyboard for mobile devices (Can be disabled for desktop mode in the settings) [ngx-material-keyboard](https://github.com/ngx-material-keyboard)  
 
