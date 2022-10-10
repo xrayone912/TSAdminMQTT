@@ -1,4 +1,390 @@
-<mat-stepper linear #stepper class="container">
+<!-- Mobile / Raspberry PI view screen width <= 800px -->
+<div *ngIf="envScreenSize === screenSize" linear class="container">
+  <mat-stepper orientation="vertical">
+    <mat-step [stepControl]="secondFormGroup" [editable]="true">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title
+            ><ng-template matStepLabel>Set Rooms</ng-template>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h3>Room list</h3>
+          <form [formGroup]="secondFormGroup">
+            <ng-template matStepLabel>Add rooms</ng-template>
+            <mat-form-field>
+              <mat-label>Room Name</mat-label>
+              <input
+                *ngIf="global.onScreenKeyboard"
+                ngxTouchKeyboard
+                ngxTouchKeyboardFullScreen
+                #touchKeyboard="ngxTouchKeyboard"
+                (focus)="touchKeyboard.openPanel()"
+                matInput
+                formControlName="secondCtrl"
+                [(ngModel)]="roomName"
+              />
+              <input
+                *ngIf="!global.onScreenKeyboard"
+                matInput
+                formControlName="secondCtrl"
+                [(ngModel)]="roomName"
+              /> </mat-form-field
+            ><button
+              mat-stroked-button
+              class="stroked-button-green"
+              (click)="addRoom(roomName)"
+            >
+              Add
+            </button>
+            <div *ngIf="this.roomsArray.Rooms.length !== 0">
+              <div
+                cdkDropList
+                class="drop-list"
+                (cdkDropListDropped)="dropRooms($event)"
+              >
+                <div
+                  class="drop-box"
+                  *ngFor="let room of this.roomsArray.Rooms"
+                  cdkDrag
+                  [cdkDragDisabled]="true"
+                >
+                  {{ room.name
+                  }}<button
+                    mat-stroked-button
+                    class="stroked-button-red"
+                    (click)="deleteRoom(room.id)"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </mat-card-content>
+        <mat-card-actions> </mat-card-actions>
+      </mat-card>
+      <button mat-stroked-button class="buttonSpace" matStepperNext>Next</button>
+    </mat-step>
+  
+    <mat-step [stepControl]="thirdFormGroup" [editable]="true">
+      <mat-card class="mat-elevation-z4">
+        <mat-card-header style="text-align: center">
+          <mat-card-title
+            ><ng-template matStepLabel>Assign adapter</ng-template>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h3>Tasmota devices list</h3>
+          <form [formGroup]="thirdFormGroup">
+            <div
+              fxLayout="row"
+              fxLayoutAlign="space-around center"
+              *ngIf="!hideSpinner && scan"
+            >
+              <mat-spinner></mat-spinner>
+            </div>
+            <div *ngIf="hideSpinner">
+              <div
+                cdkDropList
+                class="drop-list"
+                (cdkDropListDropped)="dropDevices($event, true)"
+              >
+                <div
+                  class="drop-box"
+                  *ngFor="let device of this.deviceStorage.Devices; let i = index"
+                  cdkDrag
+                  [cdkDragDisabled]="false"
+                >
+                  <div style="padding-right: 15px">
+                    {{ device.FriendlyName }}
+                  </div>
+                  <mat-form-field>
+                    <mat-label>Select room</mat-label>
+                    <mat-select
+                      [disabled]="deviceStorage.Devices[i].is401"
+                      [(value)]="deviceStorage.Devices[i].Room"
+                    >
+                      <mat-option>None</mat-option>
+                      <mat-option
+                        *ngFor="let room of roomsArray.Rooms"
+                        [value]="room.id"
+                      >
+                        {{ room.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div></div>
+            </div>
+          </form>
+        </mat-card-content>
+        <mat-card-actions> </mat-card-actions>
+      </mat-card>
+      <button mat-stroked-button class="buttonSpace" (click)="getAllTsAdapter()">
+        Scan
+      </button>
+      <button mat-stroked-button class="buttonSpace" matStepperPrevious>
+        Back
+      </button>
+      <button mat-stroked-button class="buttonSpace" matStepperNext>Next</button>
+    </mat-step>
+  
+    <mat-step>
+      <mat-card class="mat-elevation-z4">
+        <mat-card-header style="text-align: center">
+          <mat-card-title
+            ><ng-template matStepLabel>Set Web Admin credentials</ng-template>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngIf="this.deviceStorage.Devices.length !== 0">
+            <div *ngFor="let device of this.deviceStorage.Devices; let i = index">
+              <mat-accordion>
+                <mat-expansion-panel
+                  hideToggle
+                  [disabled]="true"
+                  [expanded]="this.deviceStorage.Devices[i].setCredentials"
+                >
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <input
+                        *ngIf="global.onScreenKeyboard"
+                        ngxTouchKeyboard
+                        ngxTouchKeyboardFullScreen
+                        #touchKeyboard="ngxTouchKeyboard"
+                        (focus)="touchKeyboard.openPanel()"
+                        matInput
+                        placeholder=""
+                        [(ngModel)]="this.deviceStorage.Devices[i].FriendlyName"
+                      />
+                      <input
+                        *ngIf="!global.onScreenKeyboard"
+                        matInput
+                        placeholder=""
+                        [(ngModel)]="this.deviceStorage.Devices[i].FriendlyName"
+                      />
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <mat-checkbox
+                        [(ngModel)]="this.deviceStorage.Devices[i].setCredentials"
+                        >Set credentials</mat-checkbox
+                      >
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <mat-form-field class="full-width">
+                    <mat-label>Username</mat-label>
+                    <input
+                      *ngIf="global.onScreenKeyboard"
+                      ngxTouchKeyboard
+                      ngxTouchKeyboardFullScreen
+                      #touchKeyboard="ngxTouchKeyboard"
+                      (focus)="touchKeyboard.openPanel()"
+                      matInput
+                      placeholder=""
+                      [(ngModel)]="this.deviceStorage.Devices[i].userName"
+                    />
+                    <input
+                      *ngIf="!global.onScreenKeyboard"
+                      matInput
+                      placeholder=""
+                      [(ngModel)]="this.deviceStorage.Devices[i].userName"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="full-width">
+                    <mat-label>Password</mat-label>
+                    <input
+                      *ngIf="global.onScreenKeyboard"
+                      ngxTouchKeyboard
+                      ngxTouchKeyboardFullScreen
+                      #touchKeyboard="ngxTouchKeyboard"
+                      (focus)="touchKeyboard.openPanel()"
+                      matInput
+                      type="password"
+                      placeholder=""
+                      [type]="hide ? 'password' : 'text'"
+                      [(ngModel)]="this.deviceStorage.Devices[i].password"
+                    />
+                    <input
+                      *ngIf="!global.onScreenKeyboard"
+                      matInput
+                      type="password"
+                      placeholder=""
+                      [type]="hide ? 'password' : 'text'"
+                      [(ngModel)]="this.deviceStorage.Devices[i].password"
+                    />
+                  </mat-form-field>
+                  <div *ngIf="this.deviceStorage.Devices[i].Module === undefined">
+                    <button
+                      mat-stroked-button
+                      class="buttonSpace"
+                      (click)="updateCredentials(i)"
+                    >
+                      Refresh Device
+                    </button>
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
+              <br />
+            </div>
+          </div>
+          <div></div>
+        </mat-card-content>
+        <mat-card-actions></mat-card-actions>
+      </mat-card>
+      <mat-step>
+        <mat-card class="mat-elevation-z4">
+          <mat-card-header>
+            <mat-card-title
+              ><ng-template matStepLabel>Set MQTT Settings</ng-template>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <h3>Automatic MQTT settings</h3>
+            <p>Three steps are necessary here</p>
+            <ul>
+              <li>Enable MQTT</li>
+              <li>Set MQTT host: {{ localIp }}</li>
+              <li>Set MQTT Topic: device ip</li>
+            </ul>
+            <p style="color: rgb(255, 86, 86)">
+              Attention, all existing settings for MQTT Host and MQTT Topic will
+              be overwritten on all devices. If you want to edit the settings
+              manually, please click Skip and open the Tasmota settings and make
+              settings there see tutorial!
+            </p>
+            <br />
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+              <ng-container matColumnDef="deviceId">
+                <th mat-header-cell *matHeaderCellDef>Device IP</th>
+                <td mat-cell *matCellDef="let element">{{ element.deviceId }}</td>
+              </ng-container>
+              <ng-container matColumnDef="mqttState">
+                <th mat-header-cell *matHeaderCellDef>MQTT Active</th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-icon
+                    [ngClass]="{
+                      true: element.mqttState === true,
+                      false: element.mqttState === false
+                    }"
+                    >lens_blur</mat-icon
+                  >
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="mqttHost">
+                <th mat-header-cell *matHeaderCellDef>Host</th>
+                <td mat-cell *matCellDef="let element">{{ element.mqttHost }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Topic">
+                <th mat-header-cell *matHeaderCellDef>Topic</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.mqttTopic }}
+                </td>
+              </ng-container>
+  
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsMobile"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsMobile"></tr>
+            </table>
+            <br /><br />
+            <div
+              fxLayout="row"
+              fxLayoutAlign="space-around center"
+              *ngIf="dataSource.data.length === 0 && !hideRefreshSpinner"
+            >
+              <mat-spinner [diameter]="40"></mat-spinner>
+            </div>
+            <button
+              mat-stroked-button
+              class="stroked-button-grey"
+              (click)="getMqttStatus()"
+            >
+              Refresh
+            </button>
+          </mat-card-content>
+          <mat-card-actions>
+            <button
+              [disabled]="dataSource.data.length === 0"
+              mat-stroked-button
+              [ngClass]="{
+                'button-disabled': dataSource.data.length === 0,
+                'button-green': dataSource.data.length > 0
+              }"
+              (click)="enableMqttforAllDevices()"
+            >
+              Enable MQTT
+            </button>
+            <!-- <button mat-stroked-button (click)="disableMqttforAllDevices()">
+              Diasbe MQTT
+            </button> -->
+            <button
+              mat-stroked-button
+              [disabled]="disableMqttHostButton"
+              [ngClass]="{
+                'button-disabled': disableMqttHostButton === true,
+                'button-green': disableMqttHostButton === false
+              }"
+              (click)="openMqttHostDialog()"
+            >
+              Set MQTT Host
+            </button>
+            <button
+              mat-stroked-button
+              [disabled]="disableMqttTopicButton"
+              [ngClass]="{
+                'button-disabled': disableMqttTopicButton === true,
+                'button-green': disableMqttTopicButton === false
+              }"
+              (click)="openMqttTopicDialog()"
+            >
+              Set MQTT Topic
+            </button>
+        
+          </mat-card-actions>
+          <mat-card-actions>
+            <button mat-stroked-button class="stroked-button-grey" matStepperNext>
+              Skip
+            </button>
+        </mat-card-actions>
+        </mat-card>
+        <div>
+          <button mat-stroked-button class="buttonSpace" matStepperPrevious>
+            Back
+          </button>
+        </div>
+      </mat-step>
+      <div>
+        <button mat-stroked-button class="buttonSpace" matStepperPrevious>
+          Back
+        </button>
+        <button mat-stroked-button class="buttonSpace" matStepperNext>
+          Next
+        </button>
+      </div>
+    </mat-step>
+  
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p class="textColor">You are now done.</p>
+      <div>
+        <button mat-stroked-button class="buttonSpace" matStepperPrevious>
+          Back
+        </button>
+        <button
+          mat-stroked-button
+          class="buttonSpace"
+          (click)="saveAdapter(false)"
+        >
+          Finish Setup
+        </button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+  
+
+<!-- Desktop view screen width > 800px -->
+</div>
+<mat-stepper *ngIf="envScreenSize !== screenSize" linear #stepper class="container">
   <mat-step [stepControl]="secondFormGroup" [editable]="true">
     <mat-card>
       <mat-card-header>
@@ -351,9 +737,6 @@
       <div>
         <button mat-stroked-button class="buttonSpace" matStepperPrevious>
           Back
-        </button>
-        <button mat-stroked-button class="buttonSpace" matStepperNext>
-          Next
         </button>
       </div>
     </mat-step>

@@ -32,6 +32,8 @@ export class SetupComponent implements OnInit {
  public hideRefreshSpinner = true;
  public scan!: boolean;
  public localIp = '';
+ public screenSize = 0;
+ public envScreenSize = 0;
  public disableMqttHostButton = true;
  public disableMqttTopicButton = true;
  public displayedColumns: any[] = [
@@ -41,7 +43,12 @@ export class SetupComponent implements OnInit {
     'mqttHost',
     'Topic'
   ];
-
+  public displayedColumnsMobile: any[] = [
+    'deviceId',
+    'mqttState',
+    'mqttHost',
+    'Topic'
+  ];
   public ipc: IpcRenderer | undefined;
 
   constructor(
@@ -65,6 +72,9 @@ export class SetupComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.envScreenSize = environment.screenSize;
+    this.screenSize = window.screen.height;
+    
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['']
     });
@@ -85,7 +95,7 @@ export class SetupComponent implements OnInit {
       }
     }, 1000);
 
-    this.getLocalIp();
+    this.getLocalIp();    
   }
 
   public async getAllTsAdapter() {

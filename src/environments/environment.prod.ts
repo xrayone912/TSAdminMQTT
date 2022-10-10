@@ -54,6 +54,8 @@ export const environment = {
   toastrTimeOut: 5000,
   //toastr show progressbar
   toastrProgressBar: true,
+  //ScreenSize for Mobile view
+  screenSize: 800,
   //toastr 401 warning message
   toastr401:
     'Unauthorized access 401 </br> No or wrong credentials </br> for this adapter',

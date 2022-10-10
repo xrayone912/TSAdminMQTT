@@ -83,6 +83,13 @@
   color: rgb(129, 129, 129) !important;
 }
 
+::ng-deep .mat-vertical-stepper-header {
+  display: flex;
+  align-items: center;
+  height: 24px;
+  background: var(--background-color);
+}
+
 ::ng-deep .mat-stepper-horizontal-line {
   border-top-color: #95f322 !important;
 }
@@ -90,6 +97,13 @@
 ::ng-deep .mat-step-header .mat-step-icon-state-edit {
   background-color: #ff5757 !important;
   color: #fff !important;
+}
+
+::ng-deep .mat-vertical-content-container {
+  margin-left: 0px !important;
+  border: 0;
+  position: relative;
+  background: var(--background-color);
 }
 
 ::ng-deep .mat-step-icon {
@@ -247,7 +261,7 @@
 }
 
 ::ng-deep th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
-  padding-right: 0px !important;
+  padding-right: 15px !important;
 }
 
 ::ng-deep th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
