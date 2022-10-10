@@ -84,15 +84,13 @@ Run `npm run electron-package-windows` to build the project.
 
 Run `npm run electron-package-linux` to build the project.
 
-## MacOs
+## MacOS
 
 !!! Important the MacOs build must be done under a Linux operating system !!!
 
 Run `npm run electron-package-macOS` to build the project.
 
 ## arm7l (Raspberry PI 3+)
-
-!!! Important the MacOs build must be done under a Linux operating system !!!
 
 Run `npm run electron-package-arm7l` to build the project.
 
