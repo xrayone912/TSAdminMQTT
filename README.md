@@ -5,9 +5,12 @@ TSAdminMQTT is an application to control and manage SmartHome devices running wi
 
 # Compiled version v1.1.2
 
-- [Windows V1.1.2](https://www.dropbox.com/s/h02f9550oyc5kb8/TSAdminMQTT_v.1.1.2-windows-x64.zip?dl=1)
-- [Linux V1.1.2](https://www.dropbox.com/s/be7i3d69iscu0hv/TSAdminMQTT_v.1.1.2-linux-x64.zip?dl=1)
 - [MacOS V1.1.2](https://www.dropbox.com/s/z9o6a484vfk2j1n/TSAdminMQTT_v.1.1.2-MacOS-x64.zip?dl=1)
+
+# Compiled version v1.1.3
+
+- [Windows V1.1.3](https://www.dropbox.com/s/cv9c62pxtc0g4hw/TSAdminMQTT_v1.1.3_Windows.zip?dl=1)
+- [Linux V1.1.3](https://www.dropbox.com/s/49fbh38vztqy02y/TSAdminMQTT_v1.1.3_Linux.zip?dl=1)
 
 ## Features v1.1.3
 
@@ -84,15 +87,13 @@ Run `npm run electron-package-windows` to build the project.
 
 Run `npm run electron-package-linux` to build the project.
 
-## MacOs
+## MacOS
 
 !!! Important the MacOs build must be done under a Linux operating system !!!
 
 Run `npm run electron-package-macOS` to build the project.
 
 ## arm7l (Raspberry PI 3+)
-
-!!! Important the MacOs build must be done under a Linux operating system !!!
 
 Run `npm run electron-package-arm7l` to build the project.
 
