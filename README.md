@@ -97,7 +97,7 @@ Run `npm run electron-package-linux` to build the project.
 
 Run `npm run electron-package-macOS` to build the project.
 
-## arm7l (Raspberry PI 3+)
+## Build arm7l (Raspberry PI 3+)
 
 Before build the display size of the used display must be set in the app.json width: height:
 in the enviroment.arm7l the variable screenSize must be set to your display width.
