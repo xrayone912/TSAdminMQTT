@@ -3,11 +3,17 @@
 
 TSAdminMQTT is an application to control and manage SmartHome devices running with [Tasmota](https://github.com/arendst/Tasmota) 
 
-# Compiled version v1.1.4
+# Compiled desktop version v1.1.4
 
 - [Windows V1.1.4](https://www.dropbox.com/s/exq7cer8li1cvvq/TSAdminMQTT_v1.1.4_Windows.zip?dl=1)
 - [Linux V1.1.4](https://www.dropbox.com/s/d3xjt8kcc04d9yo/TSAdminMQTT_v1.1.4_linux.zip?dl=1)
 - [MacOS V1.1.4](https://www.dropbox.com/s/2zb6ra0xcdtwe99/TSAdminMQTT_v1.1.4_MacOS.zip?dl=1)
+
+# Compiled Raspberry PI 3b version v1.1.4
+
+This build is for 5 inch displays with a resolution of 800x400. The display must be used in horizontal mode.
+
+- [Pi 3b armV7 V1.1.4](https://www.dropbox.com/s/djc07tnkv1qfwuz/TSAdminMQTT_v1.1.4_armv7l.zip?dl=1)
 
 ## Features v1.1.4
 
@@ -92,6 +98,10 @@ Run `npm run electron-package-linux` to build the project.
 Run `npm run electron-package-macOS` to build the project.
 
 ## arm7l (Raspberry PI 3+)
+
+Before build the display size of the used display must be set in the app.json width: height:
+in the enviroment.arm7l the variable screenSize must be set to your display width.
+And in the Pi config the display must be set to horizontal.
 
 Run `npm run electron-package-arm7l` to build the project.
 
