@@ -99,7 +99,7 @@ Run `npm run electron-package-macOS` to build the project.
 
 ## Build arm7l (Raspberry PI 3+)
 
-Before build the display size of the used display must be set in the app.json width: height:
+Before build the display size of the used display must be set in the app.json width: height and frame: false
 in the enviroment.arm7l the variable screenSize must be set to your display width.
 And in the Pi config the display must be set to horizontal.
 
