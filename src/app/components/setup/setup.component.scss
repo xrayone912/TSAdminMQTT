@@ -78,9 +78,9 @@
 
 ::ng-deep .mat-step-header .mat-step-icon-selected,
 .mat-step-header .mat-step-icon-state-done,
-.mat-step-header .mat-step-icon-state-edit {
-  background-color: #9cfb2b !important;
-  color: rgb(129, 129, 129) !important;
+.mat-step-header {
+  background-color: #22a6fd !important;
+  color: rgb(241, 241, 241) !important;
 }
 
 ::ng-deep .mat-vertical-stepper-header {
@@ -91,12 +91,12 @@
 }
 
 ::ng-deep .mat-stepper-horizontal-line {
-  border-top-color: #95f322 !important;
+  border-top-color: #22a6fd !important;
 }
 
 ::ng-deep .mat-step-header .mat-step-icon-state-edit {
-  background-color: #ff5757 !important;
-  color: #fff !important;
+  background-color: #ff00d978 !important;
+  color: #fff!important;
 }
 
 ::ng-deep .mat-vertical-content-container {
@@ -184,7 +184,7 @@
 
 ::ng-deep .mat-progress-spinner circle,
 .mat-spinner circle {
-  stroke: #9cfb2b;
+  stroke: #22a6fd;
 }
 .buttonSpace {
   margin-top: 40px;
@@ -215,7 +215,7 @@
 }
 
 .stroked-button-green {
-  border-color: chartreuse;
+  border-color: #22a6fd;
   margin-left: 25px;
 }
 
@@ -274,6 +274,7 @@
   border-bottom-style: solid !important;
   padding: 5px !important;
 }
+
 ::ng-deep ngx-touch-keyboard {
   width: 100%;
   padding: 0.25rem 0.25rem 0.375rem;
@@ -288,6 +289,7 @@
   background-color: var(--background-color-card) !important;
   box-shadow: 0 3px 1px -2px #0003, 0 2px 2px #00000024, 0 1px 5px #0000001f;
 }
+
 ::ng-deep .touch-keyboard .touch-keyboard-key {
   width: 20px;
   box-sizing: border-box;

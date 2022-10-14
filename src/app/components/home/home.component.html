@@ -1,5 +1,5 @@
 <mat-tab-group
-  [selectedIndex]="1"
+  [selectedIndex]="0"
   mat-stretch-tabs
   class="drop-stretched-tabs mat-elevation-z4 || container"
 >
@@ -18,7 +18,7 @@
           >
             <mat-chip-list *ngIf="fwInfoToggle">
               <mat-chip
-                (click)="openExtrenalUrl()"
+                (click)="openExternalUrl()"
                 (removed)="disableFwInfo(device.ip)"
                 *ngIf="device.isFwUpdate && device.Room === item.id"
               >
@@ -169,8 +169,8 @@
     <mat-card class="mat-elevation-z4">
       <mat-card-header style="text-align: center">
         <mat-card-title
-          >TSAdminMQTT &nbsp; {{ 'v' + this.appVersion }}&nbsp; | &nbsp; MQTT
-          Broker IP: {{ localIp }} &nbsp; | &nbsp; Port: 1883 <br /><br />
+          ><div class="homeHeaderInfo">  TSAdminMQTT &nbsp; {{ 'v' + this.appVersion }}&nbsp; | &nbsp; MQTT
+          Broker IP: {{ localIp }} &nbsp; | &nbsp; Port: 1883 </div><br /><br />
 
           <mat-accordion>
             <mat-expansion-panel

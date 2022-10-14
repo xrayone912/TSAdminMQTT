@@ -50,6 +50,10 @@
   color: black;
 }
 
+.homeHeaderInfo{
+color: rgb(14, 159, 255);
+}
+
 .content {
   padding: 40px;
 }
@@ -139,23 +143,23 @@
 
 ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
 .mat-tab-nav-bar.mat-primary .mat-ink-bar {
-  background-color: #9cfb2b !important;
+  background-color: #22a6fd !important;
 }
 
 ::ng-deep .mat-tab-header-pagination-chevron {
-  border-color: #9cfb2b !important;
+  border-color: #22a6fd !important;
 }
 
 ::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
-  background-color: #78ff6c8a;
+  background-color: #22a5fd9f;
 }
 
 ::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
-  background-color: #9cfb2b;
+  background-color: #22a6fd;
 }
 
 ::ng-deep .mat-card-title {
-  color: dimgray !important;
+  color: rgb(143, 142, 142) !important;
   font-size: medium !important;
   display: grid !important;
 }

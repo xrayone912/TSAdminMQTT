@@ -366,7 +366,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  public openExtrenalUrl() {
+  public openExternalUrl() {
     this.ipc?.send('openUrl');
   }
 
