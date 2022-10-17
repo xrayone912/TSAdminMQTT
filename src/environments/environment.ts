@@ -17,7 +17,7 @@ export const environment = {
   //mqtt http command set mqtt topic
   setMqttTopic: '/cm?cmnd=Topic ',
   //mqtt http command get mqtt status
-  getMqttStatus: '/cm?cmnd=Status 6',
+  getMqttStatus: '/cm?cmnd=Status 0',
   //tasmota STATUS string get TS Version
   StatusFWR: 'StatusFWR',
   //device get Power state 1 or 0 from cmnd/xxx.xxx.xxx.xxx/Status
