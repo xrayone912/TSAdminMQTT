@@ -6,14 +6,14 @@ TSAdminMQTT is an application to control and manage SmartHome devices running wi
 # Compiled desktop version v1.1.6
 
 - [Windows V1.1.6](https://www.dropbox.com/s/thubiu82jrimhaq/TSAdminMQTT_v1.1.6-windows.zip?dl=1)
-- [Linux V1.1.6](https://www.dropbox.com/s/kcufrfwyf6wsy6k/TSAdminMQTT_v1.1.6-linux.zip?dl=1)
-- [MacOS V1.1.6](https://www.dropbox.com/s/stpg309rsmvdfjt/TSAdminMQTT_v1.1.6-MacOS.zip?dl=1)
+- [Linux V1.1.6](https://www.dropbox.com/s/k6056ev6j80dnq1/TSAdminMQTT_v1.1.6-Linux.zip?dl=1)
+- [MacOS V1.1.6](https://www.dropbox.com/s/rvadyier5afe4nb/TSAdminMQTT_v1.1.6-MacOS.zip?dl=1)
 
 # Compiled Raspberry PI 3b version v1.1.6
 
 This build is for 5 inch displays with a resolution of 800x400. The display must be used in horizontal mode.
 
-- [Pi 3b armV7 V1.1.6](https://www.dropbox.com/s/m88c8t73i3z7p43/TSAdminMQTT_v1.1.6-armv7l.zip?dl=1)
+- [Pi 3b armV7 V1.1.6](https://www.dropbox.com/s/p2vd4hddfa0taan/TSAdminMQTT_v1.1.6-armv7l.zip?dl=1)
 
 ## Features v1.1.6
 
