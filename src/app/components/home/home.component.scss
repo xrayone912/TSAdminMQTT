@@ -125,6 +125,10 @@ color: rgb(14, 159, 255);
   border-color: rgb(7, 144, 255);
 }
 
+.stroked-button-purple {
+  border-color: #98559b;
+}
+
 .true {
   color: greenyellow;
   padding-left: 1px;
@@ -212,4 +216,9 @@ color: rgb(14, 159, 255);
 }
 .cancel-light {
   color: var(--text-color) !important;
+}
+
+::ng-deep .mat-card-actions:not(.mat-card-actions-align-end) .mat-button:first-child, .mat-card-actions:not(.mat-card-actions-align-end) .mat-raised-button:first-child, .mat-card-actions:not(.mat-card-actions-align-end) .mat-stroked-button:first-child {
+  margin-left: 0px !important;
+  margin-right: 8px !important;
 }

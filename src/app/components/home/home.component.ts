@@ -16,6 +16,7 @@ import { TutorialComponent } from '../dialog/tutorial/tutorial.component';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../environments/environment';
 import { ResetSettingsComponent } from '../dialog/resetSettings/resetSettings.component';
+import { TsConsoleComponent } from '../tsConsole/tsConsole.component';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -84,13 +85,15 @@ export class HomeComponent implements OnInit {
       }
     });
 
-    this.dbService.getByKey('onScreenKeyboard', 1).subscribe((onScreenKeyboard: any) => {
-      if (onScreenKeyboard !== undefined) {
-        this.global.onScreenKeyboard = onScreenKeyboard;
-      } else {
-        this.global.onScreenKeyboard = true;
-      }
-    });
+    this.dbService
+      .getByKey('onScreenKeyboard', 1)
+      .subscribe((onScreenKeyboard: any) => {
+        if (onScreenKeyboard !== undefined) {
+          this.global.onScreenKeyboard = onScreenKeyboard;
+        } else {
+          this.global.onScreenKeyboard = true;
+        }
+      });
 
     this.dbService.getByKey('fwinfo', 1).subscribe((fwinfo: any) => {
       if (fwinfo !== undefined) {
@@ -266,6 +269,30 @@ export class HomeComponent implements OnInit {
     this.global.userName = userName;
     this.global.password = password;
 
+    this.tsAdapterLogin();
+
+    setTimeout(() => {
+      if (this.errorCode !== 401) {
+        this._bottomSheet.open(SettingsComponent);
+      }
+    }, 500);
+  }
+
+  public openTsConsole(ip: any, userName: string, password: string) {
+    this.global.ip = ip;
+    this.global.userName = userName;
+    this.global.password = password;
+
+    this.tsAdapterLogin();
+
+    setTimeout(() => {
+      if (this.errorCode !== 401) {
+        this._bottomSheet.open(TsConsoleComponent);
+      }
+    }, 500);
+  }
+
+  public tsAdapterLogin() {
     // Workaround Bypass blocking of subresource requests whose URLs contain embedded credentials
     // First url call set credentials secend call (SettingsComponent call the adapter URL)
     this.httpService
@@ -285,12 +312,6 @@ export class HomeComponent implements OnInit {
           }
         }
       });
-
-    setTimeout(() => {
-      if (this.errorCode !== 401) {
-        this._bottomSheet.open(SettingsComponent);
-      }
-    }, 500);
   }
 
   public DevicePowerOn(ip: string, power: number): void {
@@ -398,27 +419,29 @@ export class HomeComponent implements OnInit {
     });
   }
 
- public saveOnScreenKeyboard(){
-  const data = {
-    onScreenKeyboard: !this.onScreenKeyboard
-  };
-  this.dbService.getByKey('onScreenKeyboard', 1).subscribe((onScreenKeyboard) => {
-    if (onScreenKeyboard !== null) {
-      this.dbService
-        .update('onScreenKeyboard', {
-          id: 1,
-          onScreenKeyboard: data.onScreenKeyboard
-        })
-        .subscribe((storeData) => {});
-    } else {
-      this.dbService
-        .add('onScreenKeyboard', {
-          onScreenKeyboard: data.onScreenKeyboard
-        })
-        .subscribe((storeData) => {});
-    }
-  });
-  this.global.onScreenKeyboard = data.onScreenKeyboard;
+  public saveOnScreenKeyboard() {
+    const data = {
+      onScreenKeyboard: !this.onScreenKeyboard
+    };
+    this.dbService
+      .getByKey('onScreenKeyboard', 1)
+      .subscribe((onScreenKeyboard) => {
+        if (onScreenKeyboard !== null) {
+          this.dbService
+            .update('onScreenKeyboard', {
+              id: 1,
+              onScreenKeyboard: data.onScreenKeyboard
+            })
+            .subscribe((storeData) => {});
+        } else {
+          this.dbService
+            .add('onScreenKeyboard', {
+              onScreenKeyboard: data.onScreenKeyboard
+            })
+            .subscribe((storeData) => {});
+        }
+      });
+    this.global.onScreenKeyboard = data.onScreenKeyboard;
   }
 
   public setShowFwUpdateInfo() {

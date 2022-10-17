@@ -10,17 +10,14 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-  data: any;
   trustedUrlConfig: any;
   urlConfig: any;
-  needCredentials!: boolean;
 
   @Input()
   error!: boolean;
 
   constructor(
     private _bottomSheetRef: MatBottomSheetRef<SettingsComponent>,
-    public httpService: HttpService,
     public global: global,
     public sanitizer: DomSanitizer
   ) {}
