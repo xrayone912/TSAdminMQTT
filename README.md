@@ -13,7 +13,7 @@ TSAdminMQTT is an application to control and manage SmartHome devices running wi
 
 This build is for 5 inch displays with a resolution of 800x400. The display must be used in horizontal mode.
 
-- [Pi 3b armV7 V1.1.6](https://www.dropbox.com/s/kh8ivyhe31n8iep/TSAdminMQTT_v1.1.6-armv7l.zip?dl=1)
+- [Pi 3b armV7 V1.1.6](https://www.dropbox.com/s/m88c8t73i3z7p43/TSAdminMQTT_v1.1.6-armv7l.zip?dl=1)
 
 ## Features v1.1.6
 
