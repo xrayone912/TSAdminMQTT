@@ -3,19 +3,19 @@
 
 TSAdminMQTT is an application to control and manage SmartHome devices running with [Tasmota](https://github.com/arendst/Tasmota) 
 
-# Compiled desktop version v1.1.5
+# Compiled desktop version v1.1.6
 
-- [Windows V1.1.5](https://www.dropbox.com/s/vw3ntloa8qbjmux/TSAdminMQTT-v.1.1.5_windows.zip?dl=1)
-- [Linux V1.1.5](https://www.dropbox.com/s/fku9t1c4aam0nks/TSAdminMQTT-v.1.1.5_linux.zip?dl=1)
-- [MacOS V1.1.5](https://www.dropbox.com/s/9dlgy3cbwxa8x1x/TSAdminMQTT-v.1.1.5_MacOS.zip?dl=1)
+- [Windows V1.1.6](https://www.dropbox.com/s/thubiu82jrimhaq/TSAdminMQTT_v1.1.6-windows.zip?dl=1)
+- [Linux V1.1.6](https://www.dropbox.com/s/kcufrfwyf6wsy6k/TSAdminMQTT_v1.1.6-linux.zip?dl=1)
+- [MacOS V1.1.6](https://www.dropbox.com/s/stpg309rsmvdfjt/TSAdminMQTT_v1.1.6-MacOS.zip?dl=1)
 
-# Compiled Raspberry PI 3b version v1.1.5
+# Compiled Raspberry PI 3b version v1.1.6
 
 This build is for 5 inch displays with a resolution of 800x400. The display must be used in horizontal mode.
 
-- [Pi 3b armV7 V1.1.5](https://www.dropbox.com/s/4z03p3mtzppadut/TSAdminMQTT-v.1.15_armv7l.zip?dl=1)
+- [Pi 3b armV7 V1.1.6](https://www.dropbox.com/s/kh8ivyhe31n8iep/TSAdminMQTT_v1.1.6-armv7l.zip?dl=1)
 
-## Features v1.1.5
+## Features v1.1.6
 
 - Auto Setup for MQTT Enable, set Host, Set Topic for all devices
 - Save and manage config backups
