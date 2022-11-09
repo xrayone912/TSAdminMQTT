@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DeviceStorage, Devices, global } from '../../models/devices';
+import { DeviceStorage, global } from '../../models/devices';
+import { SubSink } from 'subsink';
 import { Router } from '@angular/router';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { Room_Array } from 'src/app/models/rooms';
@@ -7,7 +8,6 @@ import { HttpService } from '../../services/http.service';
 import { SettingsComponent } from '../settings/settings.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { IMqttMessage, MqttService } from 'ngx-mqtt';
-import { Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { ThemeService } from '../../services/theme.service';
 import { IpcRenderer } from 'electron';
@@ -23,7 +23,6 @@ import { TsConsoleComponent } from '../tsConsole/tsConsole.component';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  private subscription!: Subscription;
   public message!: string;
   public package!: any;
   public ScreenKeyboard = new FormControl(true);
@@ -38,6 +37,7 @@ export class HomeComponent implements OnInit {
   public fwInfoToggle = true;
   public panelOpenState = false;
   public onScreenKeyboard = true;
+  private subs = new SubSink();
 
   constructor(
     public deviceStorage: DeviceStorage,
@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dbService.getAll('adpater').subscribe((adapter: any[]) => {
+   this.subs.sink = this.dbService.getAll('adpater').subscribe((adapter: any[]) => {
       if (adapter.length === 0) {
         this.router.navigate(['/setup']);
       }
@@ -77,7 +77,7 @@ export class HomeComponent implements OnInit {
       this.deviceStorage.Devices = adapter;
     });
 
-    this.dbService.getByKey('darkmode', 1).subscribe((darkMode: any) => {
+    this.subs.sink = this.dbService.getByKey('darkmode', 1).subscribe((darkMode: any) => {
       if (darkMode !== undefined) {
         this.global.darkMode = darkMode.darkmode;
       } else {
@@ -85,7 +85,7 @@ export class HomeComponent implements OnInit {
       }
     });
 
-    this.dbService
+    this.subs.sink = this.dbService
       .getByKey('onScreenKeyboard', 1)
       .subscribe((onScreenKeyboard: any) => {
         if (onScreenKeyboard !== undefined) {
@@ -95,7 +95,7 @@ export class HomeComponent implements OnInit {
         }
       });
 
-    this.dbService.getByKey('fwinfo', 1).subscribe((fwinfo: any) => {
+      this.subs.sink = this.dbService.getByKey('fwinfo', 1).subscribe((fwinfo: any) => {
       if (fwinfo !== undefined) {
         this.fwInfoToggle = fwinfo.fwinfo;
       } else {
@@ -115,7 +115,7 @@ export class HomeComponent implements OnInit {
   }
 
   public watchMqttStates() {
-    this.subscription = this._mqttService
+    this.subs.sink = this._mqttService
       .observe('#')
       .subscribe((message: IMqttMessage) => {
         var isValidJSON = true;
@@ -231,9 +231,9 @@ export class HomeComponent implements OnInit {
   }
 
   public getDeviceStatus() {
-    this.dbService.getAll('adpater').subscribe((adapter: any[]) => {
+    this.subs.sink = this.dbService.getAll('adpater').subscribe((adapter: any[]) => {
       adapter.forEach((element) => {
-        this._mqttService
+        this.subs.sink = this._mqttService
           .publish(
             environment.cmnd + element.ip + environment.cmndstatus,
             environment.cmndFlagZero,
@@ -295,7 +295,7 @@ export class HomeComponent implements OnInit {
   public tsAdapterLogin() {
     // Workaround Bypass blocking of subresource requests whose URLs contain embedded credentials
     // First url call set credentials secend call (SettingsComponent call the adapter URL)
-    this.httpService
+    this.subs.sink = this.httpService
       .login(this.global.ip, this.global.userName, this.global.password)
       .subscribe({
         error: (error) => {
@@ -316,7 +316,7 @@ export class HomeComponent implements OnInit {
 
   public DevicePowerOn(ip: string, power: number): void {
     if (power === 0) {
-      this._mqttService
+      this.subs.sink = this._mqttService
         .publish(
           environment.cmnd + ip + environment.cmndPower,
           environment.cmndFlagOne,
@@ -327,7 +327,7 @@ export class HomeComponent implements OnInit {
         )
         .subscribe((message: any) => {});
     } else {
-      this._mqttService
+      this.subs.sink = this._mqttService
         .publish(
           environment.cmnd + ip + environment.cmndPower,
           environment.cmndFlagZero,
@@ -401,7 +401,7 @@ export class HomeComponent implements OnInit {
     const data = {
       darkMode: !this.darkTheme.value
     };
-    this.dbService.getByKey('darkmode', 1).subscribe((darkMode) => {
+    this.subs.sink = this.dbService.getByKey('darkmode', 1).subscribe((darkMode) => {
       if (darkMode !== null) {
         this.dbService
           .update('darkmode', {
@@ -410,7 +410,7 @@ export class HomeComponent implements OnInit {
           })
           .subscribe((storeData) => {});
       } else {
-        this.dbService
+        this.subs.sink = this.dbService
           .add('darkmode', {
             darkmode: data.darkMode
           })
@@ -423,7 +423,7 @@ export class HomeComponent implements OnInit {
     const data = {
       onScreenKeyboard: !this.onScreenKeyboard
     };
-    this.dbService
+    this.subs.sink = this.dbService
       .getByKey('onScreenKeyboard', 1)
       .subscribe((onScreenKeyboard) => {
         if (onScreenKeyboard !== null) {
@@ -434,7 +434,7 @@ export class HomeComponent implements OnInit {
             })
             .subscribe((storeData) => {});
         } else {
-          this.dbService
+          this.subs.sink = this.dbService
             .add('onScreenKeyboard', {
               onScreenKeyboard: data.onScreenKeyboard
             })
@@ -448,7 +448,7 @@ export class HomeComponent implements OnInit {
     const data = {
       fwinfo: !this.fwInfoToggle
     };
-    this.dbService.getByKey('fwinfo', 1).subscribe((fwinfo) => {
+    this.subs.sink = this.dbService.getByKey('fwinfo', 1).subscribe((fwinfo) => {
       if (fwinfo !== null) {
         this.dbService
           .update('fwinfo', {
@@ -457,7 +457,7 @@ export class HomeComponent implements OnInit {
           })
           .subscribe((storeData) => {});
       } else {
-        this.dbService
+        this.subs.sink = this.dbService
           .add('fwinfo', {
             fwinfo: !data.fwinfo
           })
@@ -467,7 +467,7 @@ export class HomeComponent implements OnInit {
   }
 
   public checkTsFwUpdate() {
-    this.httpService.checkTsFwUpdate().subscribe((result) => {
+    this.subs.sink = this.httpService.checkTsFwUpdate().subscribe((result) => {
       this.infoFw = result.name.replace(/[^\d.-]/g, '');
     });
   }

@@ -13,6 +13,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { WarningComponent } from "../dialog/warning/warning.component";
 import { Warning2Component } from "../dialog/warning2/warning2.component";
+import { SubSink } from 'subsink';
 
 declare const findAllDevices: any;
 @Component({
@@ -21,6 +22,7 @@ declare const findAllDevices: any;
   styleUrls: ['./setup.component.scss']
 })
 export class SetupComponent implements OnInit {
+ private subs = new SubSink();
  public dataSource = new MatTableDataSource<MqttStatus>([]);
  public returnMsg!: string;
  public firstFormGroup!: FormGroup;
@@ -117,7 +119,7 @@ export class SetupComponent implements OnInit {
     let ip = this.deviceStorage.Devices[index].ip;
     let username = this.deviceStorage.Devices[index].userName;
     let password = this.deviceStorage.Devices[index].password;
-    this.httpService.updateCredentials(ip, username, password).subscribe({
+    this.subs.sink = this.httpService.updateCredentials(ip, username, password).subscribe({
       next: (data: any) => {
         data[environment.Status].ip = ip;
         data[environment.Status].userName = username;
@@ -131,9 +133,9 @@ export class SetupComponent implements OnInit {
   }
   
  public saveAdapter(drop: boolean) {
-    this.dbService.clear('adpater').subscribe((successDeleted) => {});
+  this.subs.sink = this.dbService.clear('adpater').subscribe((successDeleted) => {});
     this.deviceStorage.Devices.forEach((element) => {
-      this.dbService
+      this.subs.sink = this.dbService
         .add('adpater', {
           Module: element.Module,
           FriendlyName: element.FriendlyName,
@@ -177,7 +179,7 @@ export class SetupComponent implements OnInit {
   }
 
   public addRoom(name: string) {
-    this.dbService
+    this.subs.sink = this.dbService
       .add('rooms', {
         name: name,
         sortOrder: this.roomsArray.Rooms.length + 1
@@ -209,7 +211,7 @@ export class SetupComponent implements OnInit {
       event.currentIndex
     );
     this.roomsArray.Rooms.forEach((element, index) => {
-      this.dbService
+      this.subs.sink = this.dbService
         .update('rooms', {
           id: element.id,
           name: element.name
@@ -219,7 +221,7 @@ export class SetupComponent implements OnInit {
   }
 
   public getRoomsFromIndexedDB() {
-    this.dbService.getAll('rooms').subscribe((rooms: any[]) => {
+    this.subs.sink = this.dbService.getAll('rooms').subscribe((rooms: any[]) => {
       rooms.forEach((element) => {
         var room = {
           name: element.name,
@@ -233,12 +235,12 @@ export class SetupComponent implements OnInit {
   public enableMqttforAllDevices() {
     this.deviceStorage.Devices.forEach((device) => {
       if (device.userName !== undefined) {
-        this.httpService
+        this.subs.sink = this.httpService
           .login(device.ip, device.userName, device.password)
           .subscribe((result) => {});
       }
       setTimeout(() => {
-        this.httpService.setMqttEnable(device.ip).subscribe((result) => {});
+        this.subs.sink = this.httpService.setMqttEnable(device.ip).subscribe((result) => {});
       }, 2000);
     });
     this.showMqttEnabled();
@@ -248,12 +250,12 @@ export class SetupComponent implements OnInit {
   public disableMqttforAllDevices() {
     this.deviceStorage.Devices.forEach((device) => {
       if (device.userName !== undefined) {
-        this.httpService
+        this.subs.sink = this.httpService
           .login(device.ip, device.userName, device.password)
           .subscribe((result) => {});
       }
       setTimeout(() => {
-        this.httpService.setMqttDisabled(device.ip).subscribe((result) => {});
+        this.subs.sink = this.httpService.setMqttDisabled(device.ip).subscribe((result) => {});
       }, 2000);
     });
     this.getMqttStatus();
@@ -262,12 +264,12 @@ export class SetupComponent implements OnInit {
   public setMqttHost() {
     this.deviceStorage.Devices.forEach((device) => {
       if (device.userName !== undefined) {
-        this.httpService
+        this.subs.sink = this.httpService
           .login(device.ip, device.userName, device.password)
           .subscribe((result) => {});
       }
       setTimeout(() => {
-        this.httpService
+        this.subs.sink = this.httpService
           .setMqttHost(device.ip, this.localIp)
           .subscribe((result) => {});
       }, 2000);
@@ -279,12 +281,12 @@ export class SetupComponent implements OnInit {
   public setMqttTopic() {
     this.deviceStorage.Devices.forEach((device) => {
       if (device.userName !== undefined) {
-        this.httpService
+        this.subs.sink = this.httpService
           .login(device.ip, device.userName, device.password)
           .subscribe((result) => {});
       }
       setTimeout(() => {
-        this.httpService
+        this.subs.sink = this.httpService
           .setMqttTopic(device.ip, device.ip)
           .subscribe((result) => {});
       }, 2000);
@@ -308,12 +310,12 @@ export class SetupComponent implements OnInit {
       this.deviceStorage.Devices.forEach((device) => {
         try {
           if (device.userName !== undefined) {
-            this.httpService
+            this.subs.sink = this.httpService
               .login(device.ip, device.userName, device.password)
               .subscribe((result) => {});
           }
           setTimeout(() => {
-            this.httpService.getMQTTStatus(device.ip).subscribe((result) => {
+            this.subs.sink = this.httpService.getMQTTStatus(device.ip).subscribe((result) => {
               if (
                 result[environment.Status].Topic !== undefined &&
                 result[environment.StatusMQT] !== undefined
@@ -348,21 +350,21 @@ export class SetupComponent implements OnInit {
     this.roomsArray.Rooms = this.roomsArray.Rooms.filter(
       (item) => item.id !== id
     );
-    this.dbService.bulkDelete('rooms', [id]).subscribe((result) => {});
+    this.subs.sink = this.dbService.bulkDelete('rooms', [id]).subscribe((result) => {});
   }
 
   public openMqttHostDialog() {
     const dialogRef = this.dialog.open(WarningComponent);
-    dialogRef.afterClosed().subscribe((result) => {});
-    const sub = dialogRef.componentInstance.onAdd.subscribe(() => {
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {});
+    this.subs.sink = dialogRef.componentInstance.onAdd.subscribe(() => {
       this.setMqttHost();
     });
   }
 
   public openMqttTopicDialog() {
     const dialogRef = this.dialog.open(Warning2Component);
-    dialogRef.afterClosed().subscribe((result) => {});
-    const sub = dialogRef.componentInstance.onAdd.subscribe(() => {
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {});
+    this.subs.sink = dialogRef.componentInstance.onAdd.subscribe(() => {
       this.setMqttTopic();
     });
   }

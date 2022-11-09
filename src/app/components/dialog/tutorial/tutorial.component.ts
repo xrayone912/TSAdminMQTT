@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { global } from '../../../models/devices';
 import { IpcRenderer } from 'electron';
+import { Observable } from 'rxjs';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-tutorial',
@@ -11,6 +13,9 @@ import { IpcRenderer } from 'electron';
 export class TutorialComponent implements OnInit {
   public ipc: IpcRenderer | undefined;
   localIp = '';
+  private subs = new SubSink();
+
+  global$!: Observable<global>;
 
   constructor(
     public globalData: global,
@@ -31,7 +36,7 @@ export class TutorialComponent implements OnInit {
   }
 
  public getTutorialInfo() {
-    this.dbService.getByKey('tutorial', 1).subscribe((tutorial: any) => {
+ this.subs.sink = this.dbService.getByKey('tutorial', 1).subscribe((tutorial: any) => {
       if (tutorial !== null) {
         this.globalData.isTutorial = tutorial;
       }
@@ -48,16 +53,16 @@ export class TutorialComponent implements OnInit {
     const data = {
       tutorial: !this.globalData.isTutorial
     };
-    this.dbService.getByKey('tutorial', 1).subscribe((tutorial) => {
+    this.subs.sink = this.dbService.getByKey('tutorial', 1).subscribe((tutorial) => {
       if (tutorial !== null) {
-        this.dbService
+        this.subs.sink = this.dbService
           .update('tutorial', {
             id: 1,
             tutorial: data.tutorial
           })
           .subscribe((storeData) => {});
       } else {
-        this.dbService
+        this.subs.sink = this.dbService
           .add('tutorial', {
             tutorial: data.tutorial
           })
@@ -65,4 +70,9 @@ export class TutorialComponent implements OnInit {
       }
     });
   }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
+  
 }

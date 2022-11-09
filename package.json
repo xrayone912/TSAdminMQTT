@@ -49,6 +49,7 @@
     "ngx-touch-keyboard": "^2.2.0",
     "node": "^14.17.5",
     "rxjs": "~7.5.0",
+    "subsink": "^1.0.2",
     "tslib": "^2.3.0",
     "websocket-stream": "^5.5.2",
     "zone.js": "~0.11.4"

@@ -3,6 +3,8 @@ import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { IpcRenderer } from 'electron';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
+import { SubSink } from 'subsink';
+
 @Component({
   selector: 'app-resetSettings',
   templateUrl: './resetSettings.component.html',
@@ -10,6 +12,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class ResetSettingsComponent implements OnInit {
   public ipc: IpcRenderer | undefined;
+  private subs = new SubSink();
 
   constructor(
     private dbService: NgxIndexedDBService,
@@ -28,12 +31,11 @@ export class ResetSettingsComponent implements OnInit {
   ngOnInit() {}
 
   public deleteIndexedDB() {
-    this.dbService
+    this.subs.sink = this.dbService
       .deleteDatabase()
-      .subscribe((result: any) => {
-      });
-      this.showRestart();
-          this.restartApp();
+      .subscribe((result: any) => {});
+    this.showRestart();
+    this.restartApp();
   }
 
   public showRestart() {
@@ -48,5 +50,9 @@ export class ResetSettingsComponent implements OnInit {
     setTimeout(() => {
       this.ipc?.send('restart');
     }, 2000);
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
   }
 }
