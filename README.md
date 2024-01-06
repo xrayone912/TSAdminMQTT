@@ -66,7 +66,7 @@ This build is for 5 inch displays with a resolution of 800x400. The display must
 ![App Screenshot](https://i.postimg.cc/Y0tbYgkP/7.png)
 
 ## Screenshot
-![App Screenshot](https://i.postimg.cc/2jxHmH7N/8.png)
+![App Screenshot](https://i.postimg.cc/ydjFqG4f/8.png)
 
 ## Screenshot
 ![App Screenshot](https://i.postimg.cc/0Nmf4Zy3/9.png)
