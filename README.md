@@ -44,14 +44,33 @@ This build is for 5 inch displays with a resolution of 800x400. The display must
 **UI:** [Angular Material](https://material.angular.io/)
 
 
-## Screenshot
-![App Screenshot](https://i.postimg.cc/bdfyVf8L/setup5.png)
+## Setup step 1 (Set rooms)
+![App Screenshot](https://i.postimg.cc/KYK7MfTj/1.png)
+
+## Setup step 2 (Assign adapter to room)
+![App Screenshot](https://i.postimg.cc/MKTnHTVK/2.png)
+
+## Setup step 3 (Set credentials for adapter if exist)
+![App Screenshot](https://i.postimg.cc/zBxJYCdw/3.png)
+
+## Setup step 4 (Enable MQTT for all adapter)
+![App Screenshot](https://i.postimg.cc/mggJKvvn/4.png)
+
+## Setup step 5 (Set MQTT Host for all adapter)
+![App Screenshot](https://i.postimg.cc/VvFZVgD1/5.png)
+
+## Setup step 6 (Set MQTT Topic for all adapter)
+![App Screenshot](https://i.postimg.cc/sDw0PnM4/6.png)
+
+## Setup step 7 (Finish setup)
+![App Screenshot](https://i.postimg.cc/Y0tbYgkP/7.png)
 
 ## Screenshot
-![App Screenshot](https://i.postimg.cc/nVCkqjz0/setup8.png)
+![App Screenshot](https://i.postimg.cc/2jxHmH7N/8.png)
 
 ## Screenshot
-![App Screenshot](https://i.postimg.cc/mg8zdjpM/mqttAuto.png)
+![App Screenshot](https://i.postimg.cc/0Nmf4Zy3/9.png)
+
 
 ## Requirements
 
